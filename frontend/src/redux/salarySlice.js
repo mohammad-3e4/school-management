@@ -4,7 +4,7 @@ export const getSalary = createAsyncThunk(
   "fees/getSalary",
   async (_, thunkAPI) => {
     try {
-      const response = await fetch(`/salary`);
+      const response = await fetch(`/api/v1/salary`);
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -24,7 +24,7 @@ export const createSalary = createAsyncThunk(
     "create/Salary",
     async (values, thunkAPI) => {
       try {
-        const response = await fetch("/salary/create", {
+        const response = await fetch("/api/v1/salary/create", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -50,7 +50,7 @@ export const createSalary = createAsyncThunk(
     "create/paySalary",
     async (values, thunkAPI) => {
       try {
-        const response = await fetch("/salary/pay", {
+        const response = await fetch("/api/v1/salary/pay", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -75,7 +75,7 @@ export const createSalary = createAsyncThunk(
     "create/Salarybyid",
     async (id, thunkAPI) => {
       try {
-        const response = await fetch(`/salary/${id}` ,)
+        const response = await fetch(`/api/v1/salary/${id}` ,)
   
         if (!response.ok) {
           const errorData = await response.json();

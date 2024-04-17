@@ -6,7 +6,7 @@ export const addStaff = createAsyncThunk(
   async (values, thunkAPI) => {
     try {
       // Your asynchronous logic to add student here
-      const response = await fetch("/staff", {
+      const response = await fetch("/api/v1/staff", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -33,7 +33,7 @@ export const getStaff = createAsyncThunk(
   "staff/getStaff",
   async (_, thunkAPI) => {
     try {
-      const response = await fetch("/staff");
+      const response = await fetch("/api/v1/staff");
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -52,7 +52,7 @@ export const getStaffById = createAsyncThunk(
   "staff/getMember",
   async (staffId, thunkAPI) => {
     try {
-      const response = await fetch(`/staff/${staffId}`);
+      const response = await fetch(`/api/v1/staff/${staffId}`);
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -75,7 +75,7 @@ export const deleteStaff = createAsyncThunk(
   async (staffId, thunkAPI) => {
     try {
       // Your asynchronous logic to delete student here
-      const response = await fetch(`/staff/${staffId}`, {
+      const response = await fetch(`/api/v1/staff/${staffId}`, {
         method: "DELETE",
       });
 
@@ -99,7 +99,7 @@ export const updateStaff = createAsyncThunk(
   async ({ staffId, updatedData }, thunkAPI) => {
     try {
       // Your asynchronous logic to update student here
-      const response = await fetch(`/staff/${staffId}`, {
+      const response = await fetch(`/api/v1/staff/${staffId}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -131,7 +131,7 @@ export const setAbsent = createAsyncThunk(
         typeCase,
       };
 
-      const response = await fetch("/staff/attendance", {
+      const response = await fetch("/api/v1/staff/attendance", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -162,7 +162,7 @@ export const setPresent = createAsyncThunk(
       typeCase,
     };
     try {
-      const response = await fetch("/staff/present", {
+      const response = await fetch("/api/v1/staff/present", {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -188,7 +188,7 @@ export const getEntries = createAsyncThunk(
   async (_, thunkAPI) => {
     console.log("HII");
     try {
-      const response = await fetch(`/staff/entries`);
+      const response = await fetch(`/api/v1/staff/entries`);
 
       if (!response.ok) {
         const errorData = await response.json();

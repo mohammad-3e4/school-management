@@ -6,8 +6,8 @@ export const getSubjects = createAsyncThunk(
   "classes/getSubjects",
   async (_, thunkAPI) => {
     try {
-      // Your asynchronous logic to fetch classes here
-      const response = await fetch(`/class/subject`);
+      // Your asynchronous logic to fetch c/api/v1lasses here
+      const response = await fetch(`/api/v1/class/subject`);
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -28,7 +28,7 @@ export const deleteSubjects = createAsyncThunk(
   "classes/deleteSubjects",
   async (deleteSubjects, thunkAPI) => {
     try {
-      const response = await fetch(`/class/subject`, {
+      const response = await fetch(`/api/v1/class/subject`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -55,7 +55,7 @@ export const addSubjects = createAsyncThunk(
   "classes/addSubjects",
   async (subjects, thunkAPI) => {
     try {
-      const response = await fetch(`/class/subject`, {
+      const response = await fetch(`/api/v1/class/subject`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

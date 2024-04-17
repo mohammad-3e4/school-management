@@ -4,7 +4,7 @@ export const getFees = createAsyncThunk(
   "fees/getFees",
   async (selectedClass, thunkAPI) => {
     try {
-      const response = await fetch(`/fees/class/${selectedClass}`);
+      const response = await fetch(`/api/v1/fees/class/${selectedClass}`);
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -25,7 +25,7 @@ export const getFeeStructure = createAsyncThunk(
   "fees/getFeeStructure",
   async (_, thunkAPI) => {
     try {
-      const response = await fetch(`/fees/structure`);
+      const response = await fetch(`/api/v1/fees/structure`);
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -45,7 +45,7 @@ export const getFeeStructureByClass = createAsyncThunk(
   "fees/getFeeStructureByClass",
   async (class_value, thunkAPI) => {
     try {
-      const response = await fetch(`/fees/structure/${class_value}`);
+      const response = await fetch(`/api/v1/fees/structure/${class_value}`);
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -65,7 +65,7 @@ export const getFeesByStudentId = createAsyncThunk(
   async ( studentId, thunkAPI) => {
     try {
       // Your asynchronous logic to update student her
-      const response = await fetch(`/fees/${studentId}`);
+      const response = await fetch(`/api/v1/fees/${studentId}`);
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message);
@@ -86,7 +86,7 @@ export const createFees = createAsyncThunk(
   "fees/create",
   async (values, thunkAPI) => {
     try {
-      const response = await fetch("/fees", {
+      const response = await fetch("/api/v1/fees", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -112,7 +112,7 @@ export const createFeeStructure = createAsyncThunk(
   "feestructure/create",
   async (values, thunkAPI) => {
     try {
-      const response = await fetch("/fees/structure", {
+      const response = await fetch("/api/v1/fees/structure", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -138,7 +138,7 @@ export const updateFeeStructure = createAsyncThunk(
   "feestructure/update",
   async ({id,updatedData}, thunkAPI) => {
     try {
-      const response = await fetch(`/fees/update/structure/${id}`, {
+      const response = await fetch(`/api/v1/fees/update/structure/${id}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -166,7 +166,7 @@ export const deleteStructure = createAsyncThunk(
     console.log(Id)
     try {
       // Your asynchronous logic to delete student here
-      const response = await fetch(`/fees/delete/structure/${Id}`, {
+      const response = await fetch(`/api/v1/fees/delete/structure/${Id}`, {
         method: "DELETE",
       });
 

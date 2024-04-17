@@ -6,8 +6,8 @@ export const getMarks = createAsyncThunk(
   "marks/getMarks",
   async (selectedClass_name, thunkAPI) => {
     try {
-      // const response = await fetch(`/marks/${class_name}`);
-      const response = await fetch(`/marks/${selectedClass_name}`);
+    
+      const response = await fetch(`/api/v1/marks/${selectedClass_name}`);
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -27,8 +27,8 @@ export const getSubjectMarks = createAsyncThunk(
   async ({selectedClass,selectedSubject}, thunkAPI) => {
     console.log(selectedClass,selectedSubject)
       try {
-      // const response = await fetch(`/marks/${class_name}`);
-      const response = await fetch(`/marks/subjectmarks/${selectedClass}/${selectedSubject}`);
+    
+      const response = await fetch(`/api/v1/marks/subjectmarks/${selectedClass}/${selectedSubject}`);
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -47,7 +47,7 @@ export const getMaxMarks = createAsyncThunk(
   "marks/getMaxMarks",
   async (class_name, thunkAPI) => {
     try {
-      const response = await fetch(`/marks/maxmarks/${class_name}`);
+      const response = await fetch(`/api/v1/marks/maxmarks/${class_name}`);
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -66,7 +66,7 @@ export const getMarksHeader = createAsyncThunk(
   "marks/getMarksHeader",
   async (class_name, thunkAPI) => {
     try {
-      const response = await fetch(`/marks/marksheader/${class_name}`);
+      const response = await fetch(`/api/v1/marks/marksheader/${class_name}`);
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -86,7 +86,7 @@ export const getMarksByStudentId = createAsyncThunk(
   async ({ id, class_name, section }, thunkAPI) => {
     console.log(id, class_name, section)
     try {
-      const response = await fetch(`/marks/detail/${class_name}/${section}/${id}`);
+      const response = await fetch(`/api/v1/marks/detail/${class_name}/${section}/${id}`);
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message);
@@ -107,7 +107,7 @@ export const editMarks = createAsyncThunk(
     try {
       // Your asynchronous logic to update student here
 
-      const response = await fetch(`/marks/edit/${selectedClass.replace("-","_")}/${selectedSubject}`, {
+      const response = await fetch(`/api/v1/marks/edit/${selectedClass.replace("-","_")}/${selectedSubject}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -7,7 +7,7 @@ export const loginUser = createAsyncThunk(
   async (values, thunkAPI) => {
     try {
       // Your asynchronous logic to authenticate user here
-      const response = await fetch("/auth/signin", {
+      const response = await fetch("/api/v1/auth/signin", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -32,7 +32,7 @@ export const forgotPassword = createAsyncThunk(
   "user/forgotPassword",
   async (values, thunkAPI) => {
     try {
-      const response = await fetch("/auth/forgot-password", {
+      const response = await fetch("/api/v1/auth/forgot-password", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -59,7 +59,7 @@ export const resetPassword = createAsyncThunk(
   'auth/resetPassword',
   async ({ newPassword, token }, { rejectWithValue }) => {
     try {
-      const response = await fetch(`/auth/reset-password/${token}`, {
+      const response = await fetch(`/api/v1/auth/reset-password/${token}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -84,7 +84,7 @@ export const logoutUser = createAsyncThunk(
     try {
       localStorage.removeItem("user");
 
-      const response = await fetch("/auth/signout");
+      const response = await fetch("/api/v1/auth/signout");
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -105,7 +105,7 @@ export const updateUser = createAsyncThunk(
   "student/updateUser",
   async ( updatedData, thunkAPI) => {
     try {
-      const response = await fetch(`/auth/update`, {
+      const response = await fetch(`/api/v1/auth/update`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

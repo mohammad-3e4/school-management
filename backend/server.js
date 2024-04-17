@@ -2,8 +2,8 @@ const app = require("./app");
 const dotenv = require("dotenv");
 const connect = require("./config/database");
 dotenv.config({ path: "backend/config/config.env" });
-
-
+const express = require("express");
+const path = require("path");
 
 // Handling Uncaught Exception Error
 process.on('uncaughtException', (err) => {
@@ -14,6 +14,13 @@ process.on('uncaughtException', (err) => {
 
 
 
+// if(process.env.NODE_ENV !== 'production'){
+//   app.use(express.static("frontend/build"));
+//   app.get("*", (req, res) => {
+//     res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"));
+//   });
+// }
+app.use(express.static(path.join(__dirname, '../frontend/build')));
 
 // Server runnig 
 const server = app.listen(process.env.PORT, () => {

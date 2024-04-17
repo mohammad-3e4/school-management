@@ -8,9 +8,9 @@ export const getClasses = createAsyncThunk(
     try {
       let response
       if(classValue){
-        response = await fetch(`/class?class=${classValue}`);
+        response = await fetch(`/api/v1/class?class=${classValue}`);
       }else{
-        response = await fetch(`/class`);
+        response = await fetch(`/api/v1/class`);
       }
       if (!response.ok) {
         const errorData = await response.json();
@@ -31,9 +31,9 @@ export const getClassSubject = createAsyncThunk(
     try {
       let response
       if(selectedClass){
-        response = await fetch(`/class/subject/${selectedClass}`);
+        response = await fetch(`/api/v1/class/subject/${selectedClass}`);
       }else{
-        response = await fetch(`/class`);
+        response = await fetch(`/api/v1/class`);
       }
       if (!response.ok) {
         const errorData = await response.json();
@@ -52,7 +52,7 @@ export const updateClasses = createAsyncThunk(
   async ({ className, subject, action }, thunkAPI) => {
     try {
       // Your asynchronous logic to update classes here
-      const response = await fetch(`/class/update`, {
+      const response = await fetch(`/api/v1/class/update`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -80,7 +80,7 @@ export const AssignSubject = createAsyncThunk(
   async ({teacher_id, class_name, subject}, thunkAPI) => {
     console.log(teacher_id,class_name, subject);
     try {
-      const response = await fetch(`/class/assign/teacher`, {
+      const response = await fetch(`/api/v1/class/assign/teacher`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -104,7 +104,7 @@ export const removeAssignSubject = createAsyncThunk(
   async ({ class_name, subject }, thunkAPI) => {
     try {
       // Your asynchronous logic to update classes here
-      const response = await fetch(`/class/remove/teacher`, {
+      const response = await fetch(`/api/v1/class/remove/teacher`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -132,7 +132,7 @@ export const createClass = createAsyncThunk(
   "classes/createClass",
   async (values, thunkAPI) => {
     try {
-      const response = await fetch(`/class`, {
+      const response = await fetch(`/api/v1/class`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -155,13 +155,7 @@ export const createClass = createAsyncThunk(
     }
   }
 );
-// export const setClassOrSubject = createAsyncThunk(
-//   "classes/setClassOrSubject",
-//   async ({ selectedClass, selectedSubject }, thunkAPI) => {
-//     console.log(selectedClass, selectedSubject);
-//     return { selectedClass, selectedSubject };
-//   }
-// );
+
 const initialState = {
   classes: null,
   classSubject:null,

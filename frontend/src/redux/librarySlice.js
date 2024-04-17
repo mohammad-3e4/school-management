@@ -4,9 +4,9 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 export const getBooks = createAsyncThunk(
   "library/getBooks",
   async (_, thunkAPI) => {
-    console.log("HIII");
+
     try {
-      const response = await fetch(`http://localhost:3001/api/v1/library/books`);
+      const response = await fetch(`/api/v1/library/books`);
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -26,7 +26,7 @@ export const getIssuedBooks = createAsyncThunk(
   "library/getIssuedBooks",
   async (_, thunkAPI) => {
     try {
-      const response = await fetch(`/library/issued-books`);
+      const response = await fetch(`/api/v1/library/issued-books`);
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -47,7 +47,7 @@ export const getBookById = createAsyncThunk(
   "classes/getBook",
   async (id, thunkAPI) => {
     try {
-      const response = await fetch(`/library/book/${id}`);
+      const response = await fetch(`/api/v1/library/book/${id}`);
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -66,7 +66,7 @@ export const updateBook = createAsyncThunk(
   "library/updateBook",
   async ({ bookId, values }, thunkAPI) => {
     try {
-      const response = await fetch(`/library/book/${bookId}`, {
+      const response = await fetch(`/api/v1/library/book/${bookId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -91,7 +91,7 @@ export const deleteBook = createAsyncThunk(
   async (bookId, thunkAPI) => {
     console.log(bookId);
     try {
-      const response = await fetch(`/library/book/${bookId}`, {
+      const response = await fetch(`/api/v1/library/book/${bookId}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -114,7 +114,7 @@ export const addNewBook = createAsyncThunk(
   "library/addNewBook",
   async (values, thunkAPI) => {
     try {
-      const response = await fetch(`/library/book`, {
+      const response = await fetch(`/api/v1/library/book`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -143,7 +143,7 @@ export const issueBookToId = createAsyncThunk(
   async (values, thunkAPI) => {
     console.log(values);
     try {
-      const response = await fetch(`/library/to-issue-book`, {
+      const response = await fetch(`/api/v1/library/to-issue-book`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -171,7 +171,7 @@ export const uploadBooks = createAsyncThunk(
   async ({ formData }, thunkAPI) => {
 
     try {
-      const response = await fetch(`/library/upload/books`, {
+      const response = await fetch(`/api/v1/library/upload/books`, {
         method: "POST",
         body: formData,
       });

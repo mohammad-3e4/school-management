@@ -6,7 +6,7 @@ export const addStudent = createAsyncThunk(
   async (values, thunkAPI) => {
     try {
       // Your asynchronous logic to add student here
-      const response = await fetch("/student", {
+      const response = await fetch("/api/v1/student", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -35,7 +35,7 @@ export const getStudents = createAsyncThunk(
   "student/getStudents",
   async (classValue, thunkAPI) => {
     try {
-      const response = await fetch(`/student?class=${classValue}`);
+      const response = await fetch(`/api/v1/student?class=${classValue}`);
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -58,7 +58,7 @@ export const deleteStudent = createAsyncThunk(
   async (studentId, thunkAPI) => {
     try {
       // Your asynchronous logic to delete student here
-      const response = await fetch(`/student/${studentId}`, {
+      const response = await fetch(`/api/v1/student/${studentId}`, {
         method: "DELETE",
       });
 
@@ -82,7 +82,7 @@ export const updateStudent = createAsyncThunk(
     try {
       // Your asynchronous logic to update student here
 
-      const response = await fetch(`/student/${studentId}`, {
+      const response = await fetch(`/api/v1/student/${studentId}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -109,7 +109,7 @@ export const getStudentById = createAsyncThunk(
   async (studentId, thunkAPI) => {
     try {
       // Your asynchronous logic to update student her
-      const response = await fetch(`/student/${studentId}`);
+      const response = await fetch(`/api/v1/student/${studentId}`);
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message);
@@ -134,7 +134,7 @@ export const toggleAttendance = createAsyncThunk(
         typeCase,
       };
 
-      const response = await fetch("/student/attendance", {
+      const response = await fetch("/api/v1/student/attendance", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -164,7 +164,7 @@ export const deleteEntry = createAsyncThunk(
       attendance,
     };
     try {
-      const response = await fetch("/student/present", {
+      const response = await fetch("/api/v1/student/present", {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -188,7 +188,7 @@ export const getAbsents = createAsyncThunk(
   "student/Absensts",
   async (classValue, thunkAPI) => {
     try {
-      const response = await fetch(`/student/absents`);
+      const response = await fetch(`/api/v1/student/absents`);
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -211,7 +211,7 @@ export const uploadDocuments = createAsyncThunk(
     console.log(formData); // Ensure formData contains the expected data
 
     try {
-      const response = await fetch(`/student/upload/${id}`, {
+      const response = await fetch(`/api/v1/student/upload/${id}`, {
         method: "POST",
         body: formData,
       });
@@ -236,7 +236,7 @@ export const uploadStudents = createAsyncThunk(
   async ({ formData }, thunkAPI) => {
 
     try {
-      const response = await fetch(`/student/upload/data`, {
+      const response = await fetch(`/api/v1/student/upload/data`, {
         method: "POST",
         body: formData,
       });
@@ -260,7 +260,7 @@ export const getDocumentsById = createAsyncThunk(
   "student/getDocuments",
   async (studentId, thunkAPI) => {
     try {
-      const response = await fetch(`/student/upload/${studentId}`);
+      const response = await fetch(`/api/v1/student/upload/${studentId}`);
       const responseData = await response.json(); // Parse response once
       console.log(responseData);
       if (!response.ok) {
@@ -280,7 +280,7 @@ export const deleteDocument = createAsyncThunk(
   "student/deleteDocument",
   async (studentId, thunkAPI) => {
     try {
-      const response = await fetch(`/student/upload/${studentId}`, {
+      const response = await fetch(`/api/v1/student/upload/${studentId}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
