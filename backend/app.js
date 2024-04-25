@@ -29,6 +29,10 @@ app.use(cookieParser());
 
 app.use(cors("origin", "*"));
 
+app.get('/home',(req, res)=>{
+  res.send("hii")
+})
+
 // Routes
 app.post("/api/v1/student",isAuthenticatedUser, authorizeRoles('admin'),  async (req, res) => {
   try {

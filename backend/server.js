@@ -1,7 +1,7 @@
 const app = require("./app");
 const dotenv = require("dotenv");
 const connect = require("./config/database");
-dotenv.config({ path: "backend/config/config.env" });
+dotenv.config({ path: "config.env" });
 const express = require("express");
 const path = require("path");
 
@@ -15,8 +15,13 @@ process.on('uncaughtException', (err) => {
 
 
 if(process.env.NODE_ENV === 'production'){
+  const path = require("path");
   app.use(express.static(path.join(__dirname, '../frontend/build')));
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, '../frontend/build', 'index.html'));
+  });
 }
+  
 
 
 // Server runnig 

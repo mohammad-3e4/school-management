@@ -1,18 +1,19 @@
 {
   "files": {
-    "main.css": "/static/css/main.ece70e1a.css",
-    "main.js": "/static/js/main.e09f9b71.js",
+    "main.css": "/static/css/main.93d31fae.css",
+    "main.js": "/static/js/main.eb415fd4.js",
     "static/js/453.bc89df8b.chunk.js": "/static/js/453.bc89df8b.chunk.js",
     "static/media/schoollogo.png": "/static/media/schoollogo.b9091902eb092e0ba2e4.png",
+    "static/media/loginback.jpg": "/static/media/loginback.d9af714e8004ff7a429e.jpg",
     "static/media/loginpageimg.jpg": "/static/media/loginpageimg.58417d17ecb37fb24581.jpg",
     "static/media/cbse-logo.png": "/static/media/cbse-logo.a605edccf9c4280bdf19.png",
     "index.html": "/index.html",
-    "main.ece70e1a.css.map": "/static/css/main.ece70e1a.css.map",
-    "main.e09f9b71.js.map": "/static/js/main.e09f9b71.js.map",
+    "main.93d31fae.css.map": "/static/css/main.93d31fae.css.map",
+    "main.eb415fd4.js.map": "/static/js/main.eb415fd4.js.map",
     "453.bc89df8b.chunk.js.map": "/static/js/453.bc89df8b.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.ece70e1a.css",
-    "static/js/main.e09f9b71.js"
+    "static/css/main.93d31fae.css",
+    "static/js/main.eb415fd4.js"
   ]
 }

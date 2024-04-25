@@ -2,20 +2,20 @@ import React, { useState, useEffect } from "react";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import ErrorAlert from "../BaseFiles/ErrorAlert";
-import {loginUser, clearErrors} from '../redux/userSlice'
-import {useSelector, useDispatch} from 'react-redux'
+import { loginUser, clearErrors } from "../redux/userSlice";
+import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import Spinner from "../BaseFiles/Spinner";
-import loginpageimg from "../Static/basic/loginpageimg.jpg";
 import { useFormik } from "formik";
-
+import logo from "../Static/basic/schoollogo.png";
 import * as Yup from "yup";
+import { MdHeight } from "react-icons/md";
 
 const AdminLogin = () => {
   const [showPass, setShowPass] = useState(false);
-  const {loading, error , user} = useSelector((state)=>state.user)
+  const { loading, error, user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const initialValues = {
     email: "",
     password: "",
@@ -30,7 +30,7 @@ const AdminLogin = () => {
     initialValues,
     validationSchema: validationSchema,
     onSubmit: async (values) => {
-      dispatch(loginUser(values))
+      dispatch(loginUser(values));
     },
   });
 
@@ -39,37 +39,33 @@ const AdminLogin = () => {
       const timer = setTimeout(() => {
         dispatch(clearErrors());
       }, 2000);
-  
+
       return () => clearTimeout(timer);
     }
-  
+
     if (user === null) {
-      navigate('/');
+      navigate("/");
     } else {
-      navigate(`/admin/dashboard`);
+      navigate("/admin/dashboard");
     }
   }, [error, dispatch, navigate, user]);
-  
 
   return (
     <>
-      <div className="relative isolate overflow-hidden bg-white px-6 py-24 sm:py-20 lg:overflow-visible lg:px-0">
+      <div className="relative isolate overflow-hidden bg-white px-6 py-24 sm:py-20 lg:overflow-visible lg:px-0 background-cont">
         <div className="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 lg:mx-0 lg:max-w-none lg:grid-cols-2 lg:items-start lg:gap-y-10">
           <div className="flex flex-col sm:flex-row justify-between">
             <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-2 lg:px-8">
-              <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-                <h2 className="mt-10  text-2xl tracking-widest font-bold leading-9 ">
-                  Log In
-                </h2>
-              </div>
-
-              <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-                <form className="space-y-6" onSubmit={formik.handleSubmit}>
+              <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm ">
+                <form className="space-y-6 cont" onSubmit={formik.handleSubmit}>
                   <div>
+                    <div>
+                      <img className="w-10" src={logo} />
+                    </div>
                     <div className="flex items-center justify-between ">
                       <label
                         htmlFor="tableName"
-                        className="block text-sm font-sans tracking-widest font-medium leading-6 text-gray-900 "
+                        className="block text-lg font-sans tracking-widest font-medium leading-6 text-white "
                       >
                         Log In as
                       </label>
@@ -90,13 +86,12 @@ const AdminLogin = () => {
                         <option value="students">Student</option>
                       </select>
                     </div>
-                
                   </div>
                   <div>
                     <div className="flex items-center justify-between ">
                       <label
                         htmlFor="email"
-                        className="block text-sm font-sans tracking-widest font-medium leading-6 text-gray-900 "
+                        className="block text-lg font-sans tracking-widest font-medium leading-6 text-white "
                       >
                         Email
                       </label>
@@ -124,14 +119,14 @@ const AdminLogin = () => {
                     <div className="flex items-center justify-between">
                       <label
                         htmlFor="password"
-                        className="block text-sm font-sans tracking-widest font-medium leading-6 text-gray-900 "
+                        className="block text-lg  font-sans tracking-widest font-medium leading-6 text-white "
                       >
                         Password
                       </label>
                       <div className="text-sm">
                         <Link
                           to="/forgot-password"
-                          className="font-semibold tracking-widest font-sans text-indigo-600 hover:text-indigo-500 "
+                          className="font-semibold text-lg tracking-widest font-sans text-green-300 hover:text-indigo-900 "
                         >
                           Forgot password?
                         </Link>
@@ -155,12 +150,12 @@ const AdminLogin = () => {
                       >
                         {!showPass ? (
                           <FaRegEye
-                            className="h-6 w-6 text-indigo-900"
+                            className="h-6 w-6 text-gray-600"
                             aria-hidden="true"
                           />
                         ) : (
                           <FaRegEyeSlash
-                            className="h-6 w-6 text-indigo-900"
+                            className="h-6 w-6 text-gray-600"
                             aria-hidden="true"
                           />
                         )}
@@ -172,26 +167,20 @@ const AdminLogin = () => {
                       </p>
                     )}
                   </div>
-                  {error && <ErrorAlert error={error}/>}
+                  {error && <ErrorAlert error={error} />}
                   <div>
                     <button
                       type="submit"
-                      className={`flex w-full uppercase tracking-widest justify-center rounded ${loading ? 'bg-indigo-200' :'bg-indigo-600'} px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600`}
+                      className={`flex w-full uppercase tracking-widest justify-center rounded ${
+                        loading ? "bg-indigo-200" : "bg-indigo-600"
+                      } px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600`}
                     >
-                     {loading ? <Spinner/> : 'Log In'}
+                      {loading ? <Spinner /> : "Log In"}
                     </button>
                   </div>
                 </form>
               </div>
             </div>
-          </div>
-
-          <div className="m-auto">
-            <img
-              className="w-full max-w-none rounded bg-gray-900 shadow ring-1 ring-gray-400/10 sm:w-[30rem]"
-              src={loginpageimg}
-              alt=""
-            />
           </div>
         </div>
       </div>

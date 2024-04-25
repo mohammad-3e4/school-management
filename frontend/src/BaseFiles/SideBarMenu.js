@@ -71,7 +71,7 @@ const SidebarMenu = ({ toggleSidebar }) => {
             }}
           >
             {(user && user.role === "admin") || user.role == "teacher" ? (
-              <Link to={`/dashboard`}>
+              <Link to={`/admin/dashboard`}>
                 <MenuItem
                   icon={<MdOutlineDashboard className="text-yellow-600" />}
                 >
