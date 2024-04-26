@@ -6,7 +6,7 @@ export const getMarks = createAsyncThunk(
   "marks/getMarks",
   async (selectedClass_name, thunkAPI) => {
     try {
-    
+      // const response = await fetch(`/marks/${class_name}`);
       const response = await fetch(`/api/v1/marks/${selectedClass_name}`);
 
       if (!response.ok) {
@@ -27,7 +27,7 @@ export const getSubjectMarks = createAsyncThunk(
   async ({selectedClass,selectedSubject}, thunkAPI) => {
     console.log(selectedClass,selectedSubject)
       try {
-    
+      // const response = await fetch(`/marks/${class_name}`);
       const response = await fetch(`/api/v1/marks/subjectmarks/${selectedClass}/${selectedSubject}`);
 
       if (!response.ok) {
@@ -67,6 +67,25 @@ export const getMarksHeader = createAsyncThunk(
   async (class_name, thunkAPI) => {
     try {
       const response = await fetch(`/api/v1/marks/marksheader/${class_name}`);
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message);
+      }
+
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      // Handle error
+      return thunkAPI.rejectWithValue({ error: error.message });
+    }
+  }
+);
+export const getMaxMarksHeader = createAsyncThunk(
+  "marks/getMaxMarksHeader",
+  async (class_name, thunkAPI) => {
+    try {
+      const response = await fetch(`/api/v1/marks/maxmarksheader/${class_name}`);
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -128,12 +147,39 @@ export const editMarks = createAsyncThunk(
     }
   }
 );
+export const editMaxMarks = createAsyncThunk(
+  "marks/editMaxMarks",
+  async ({updatedMarks,selectedClass} , thunkAPI) => {
+    try {
+      // Your asynchronous logic to update student here
 
+      const response = await fetch(`/api/v1/marks/editmaxmarks/${selectedClass.split("-")[0]}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedMarks),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message);
+      }
+
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      // Handle error
+      return thunkAPI.rejectWithValue({ error: error.message });
+    }
+  }
+);
 const initialState = {
   marks: null,
   subjectMarks:null,
   maxMarks:null,
   marksHeader:null,
+  maxMarksHeader:null,
   studentMark: null,
   loading: false,
   error: null,
@@ -144,7 +190,6 @@ const marksSlice = createSlice({
   name: "marks",
   initialState,
   reducers: {
-    // Define any synchronous actions here if needed
     clearErrors: (state) => {
       state.error = null;
     },
@@ -180,6 +225,21 @@ const marksSlice = createSlice({
         state.loading = false;
         state.error = action.payload.error;
       })  
+
+      .addCase(getMaxMarksHeader.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getMaxMarksHeader.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = null;
+        state.maxMarksHeader = action.payload.maxmarksHeader;
+      })
+      .addCase(getMaxMarksHeader.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload.error;
+      })  
+
       .addCase(getSubjectMarks.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -229,6 +289,19 @@ const marksSlice = createSlice({
         state.message = action.payload.message;
       })
       .addCase(editMarks.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload.error;
+      })
+      .addCase(editMaxMarks.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(editMaxMarks.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = null;
+        state.message = action.payload.message;
+      })
+      .addCase(editMaxMarks.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload.error;
       })

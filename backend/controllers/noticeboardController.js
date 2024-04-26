@@ -9,14 +9,33 @@ const fs = require('fs');
 
 
 exports.createNotice = async (req, res, next) => {
-  const { title, text, date, time } = req.body;
-  let filename = null;
-  if (req.file) {
-      filename = req.file.originalname;
+  console.log(req.body)
+  const  title = req.body.title;
+  const text = req.body.text;
+  const  date = req.body.date;
+  const  time  = req.body.time;
+  const file = req.files.file;
+  console.log(file);
+  if (!file) {
+    return res.status(400).json({ message: "No file uploaded" });
   }
+  const folderPath = path.join(
+    __dirname,
+    "..",
+    "noticebord"
+  );
+
+  fs.mkdirSync(folderPath, { recursive: true });
+
+  // Move the uploaded file to the folder
+
+
+  
+  const filePath = path.join(folderPath, file.name);
+  await file.mv(filePath);
   
   const query = 'INSERT INTO noticeboard (title, content, file, date, time) VALUES (?, ?, ?, ?, ?)';
-  db.query(query, [title, text, filename, date, time], (error, results, fields) => {
+  db.query(query, [title, text, file.name, date, time], (error, results, fields) => {
       if (error) {
           console.error('Error saving file information:', error);
           res.status(500).json({ error: 'Internal server error' });

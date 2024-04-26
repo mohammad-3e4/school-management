@@ -1,13 +1,14 @@
 import React, { useState,useEffect } from 'react';
 import axios from 'axios';
+import {useSelector, useDispatch} from 'react-redux'
+import {getListOfNotice} from '../redux/noticeSlice'
 
-const URL="http://localhost:3001/api/v1"
 const ListItem = ({ notice }) => {
   const [isReadMore, setIsReadMore] = useState(true);
 
   const handleDownload = async (fileName) => {
     try {
-        const response = await axios.get(`${URL}/noticeboard/download/${fileName}`, {
+        const response = await axios.get(`/api/v1/noticeboard/download/${fileName}`, {
             responseType: 'blob',
         });
         const url = window.URL.createObjectURL(new Blob([response.data]));
@@ -32,8 +33,8 @@ const ListItem = ({ notice }) => {
         <span className='text-indigo-500 text-[16px]'>{notice.title}</span> <span className="text-gray-400 text-[12px]">{notice.time}</span>
       </div>
       <div className="ml-4 ">
-        <span className="text-black text-[16px]">{isReadMore ? notice.content.slice(0, 40) : notice.content}</span>
-        {notice.content.length > 40 && (
+        <span className="text-black text-[16px]">{isReadMore ? notice?.content?.slice(0, 40) : notice.content}</span>
+        {notice?.content?.length > 40 && (
           <button onClick={toggleReadMore} className="text-red-500 text-sm">
             {isReadMore ? '(Read more)' : '(Show less)'}
           </button>
@@ -50,29 +51,21 @@ const ListItem = ({ notice }) => {
 };
 
 const NoticeBoard = ({refresh,setRefresh}) => {
-  const [noticeList, setNoticeList] = useState([]);
 
-  const fetchNoticeList = async () => {
-    try {
-      const response = await axios.get(`${URL}/noticeboard`);
-      setNoticeList(response.data.notice);
-    } catch (error) {
-      console.error("Error fetching notice list:", error);
-    }
-  };
+  const {notices} = useSelector((state)=>state.notices)
+  const dispatch = useDispatch()
+
 
   useEffect(() => {
-    fetchNoticeList();
+    dispatch(getListOfNotice())
+
   }, []);
-  if(refresh){
-    fetchNoticeList();
-    setRefresh(false)
-  }
+
 
   return (
     <div>
       <ul className="list-none pl-0">
-        {noticeList.map((notice, index) => (
+        {notices?.map((notice, index) => (
           <ListItem key={index} notice={notice} />
         ))}
       </ul>

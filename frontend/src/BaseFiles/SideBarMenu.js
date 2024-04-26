@@ -203,6 +203,10 @@ const SidebarMenu = ({ toggleSidebar }) => {
                     {" "}
                     <MenuItem>Upload Marks</MenuItem>{" "}
                   </Link>
+                  <Link to="/upload/maxmarks">
+                    {" "}
+                    <MenuItem>Upload Max Marks</MenuItem>{" "}
+                  </Link>
                 </SubMenu>
                 <hr />{" "}
               </>

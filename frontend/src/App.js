@@ -41,7 +41,10 @@ import AddBooks from "./Component/Library/AddBooks";
 import IssuedBooks from "./Component/Library/IssuedBooks";
 import IssuedForm from "./Component/Library/IssuedForm";
 import UploadPrimaryMarks from "./Component/marks/forms/UploadMarksPri.js";
-import {useSelector} from 'react-redux'
+import { useDispatch, useSelector } from "react-redux";
+import UploadMaxMarks from "./Component/marks/forms/UploadMaxMarks.js";
+import MarksDetailNine from "./Component/marks/MarksDetailNine.js";
+import MarksDetailEleven from "./Component/marks/MarksDetaileleven.js";
 function App() {
   const {user} = useSelector((state)=>state.user)
   return (
@@ -209,7 +212,7 @@ function App() {
               </Layout>
             }
           />
-          <Route
+         <Route
             path="/marks"
             element={
               <Layout>
@@ -222,6 +225,22 @@ function App() {
             element={
               <Layout>
                 <MarksDetail />
+              </Layout>
+            }
+          />
+          <Route
+            path="/marks/details/ninth/:id"
+            element={
+              <Layout>
+                <MarksDetailNine />
+              </Layout>
+            }
+          />
+           <Route
+            path="/marks/details/eleven/:id"
+            element={
+              <Layout>
+                <MarksDetailEleven />
               </Layout>
             }
           />
@@ -273,14 +292,29 @@ function App() {
               </Layout>
             }
           />
-          <Route
-            path="/createfee/structure"
+            <Route
+            path="/upload/marks"
             element={
               <Layout>
-                <CreateFeeStructure />
+                <UploadPrimaryMarks />
               </Layout>
             }
           />
+          <Route
+            path="/upload/maxmarks"
+            element={
+              <Layout>
+                <UploadMaxMarks />
+              </Layout>
+            }
+          />  <Route
+          path="/createfee/structure"
+          element={
+            <Layout>
+              <CreateFeeStructure />
+            </Layout>
+          }
+        />
           <Route
             path="/fees/structure"
             element={
@@ -288,7 +322,38 @@ function App() {
                 <FeeStructure />
               </Layout>
             }
-          />
+          /> <Route
+          path="/my/attendance"
+          element={
+            <Layout>
+              <Attendance />
+            </Layout>
+          }
+        />
+         <Route
+          path="/my/issued/books"
+          element={
+            <Layout>
+              <IssuedBooks />
+            </Layout>
+          }
+        />
+         <Route
+          path='/my/marks/:id'
+          element={
+            <Layout>
+         <MarksDetail />
+            </Layout>
+          }
+        /> <Route
+        path="/my/fees/:id"
+        element={
+          <Layout>
+            <FeesDetails />
+          </Layout>
+        }
+      />
+          
           <Route path="/reportcard1/:id" element={<Termone />} />
           <Route path="/reportcard2/:id" element={<Termtwo />} />
           <Route path="/secondary/:id" element={<Secondary />} />

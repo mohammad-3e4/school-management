@@ -169,7 +169,7 @@ const AllStudents = () => {
         {loading ? (
           <Loader />
         ) : (
-          <div className="table-container overflow-y-auto max-h-[100vh] w-full mb-10">
+          <div className="table-container overflow-y-auto max-h-[500px] w-full">
             <table className="flex-auto pb-10 pt-0 text-xs text-left rtl:text-right text-gray-500 dark:text-gray-400 relative overflow-x-auto shadow w-full px-4 mx-auto bg-white"></table>
             <table className="flex-auto pb-10 pt-0 text-xs text-left rtl:text-right text-gray-500 dark:text-gray-400 relative overflow-x-auto shadow w-full  px-4 mx-auto  bg-white">
               <thead className="text-xs  text-gray-700 capitalize bg-white dark:bg-gray-700 dark:text-gray-400">
@@ -177,7 +177,7 @@ const AllStudents = () => {
                   {thds.map((heading, index) => (
                     <th
                       scope="col"
-                      key={index+heading}
+                      key={index}
                       className={`py-4  text-xs border-b-2 ${
                         index === 0 ? "px-4" : "px-2"
                       }`}
@@ -201,7 +201,7 @@ const AllStudents = () => {
                   students?.map((student) => (
                     <tr
                       className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
-                      key={student.email+Math.random()}
+                      key={student.email}
                     >
                       <th
                         scope="row"
