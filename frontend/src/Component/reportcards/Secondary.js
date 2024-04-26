@@ -3,7 +3,7 @@ import { getStudentById } from "../../redux/studentSlice";
 import {
   clearErrors,
   clearMessage,
-  getMarksByStudentId,
+  getMarksByStudentId,getMaxMarks
 } from "../../redux/marksSlice";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,7 +14,7 @@ export default function Secondary() {
   const { loading, error, message, student } = useSelector(
     (state) => state.student
   );
-  const { studentMark } = useSelector((state) => state.marks);
+  const { studentMark,maxMarks } = useSelector((state) => state.marks);
   const dispatch = useDispatch();
 
   const { id } = useParams();
@@ -44,6 +44,7 @@ export default function Secondary() {
      let class_name=student?.class_name
      let section =student?.section
      dispatch(getMarksByStudentId({ id, class_name, section}));
+     dispatch(getMaxMarks(student.class_name));
     } 
    },[dispatch,id, student?.class_name, student?.section])
 
@@ -210,12 +211,12 @@ export default function Secondary() {
                   Subject{" "}
                 </th>
                 <th className="w-1/13"> Periodic test (5)</th>
-                <th className="w-1/13"> Multiple Assessment (5) </th>
-                <th className="w-1/13"> Portfolio (5)</th>
-                <th className="w-1/13"> Sub Enrichment (5) </th>
-                <th className="w-1/13"> Internal Assessment (20) </th>
-                <th className="w-1/13"> Annual Exam (80)</th>
-                <th className="w-1/13"> Total (100) </th>
+                <th className="w-1/13"> Multiple Assessment {maxMarks?.[0].Multiple_Assessment} </th>
+                <th className="w-1/13"> Portfolio {maxMarks?.[0].Portfolio}</th>
+                <th className="w-1/13"> Sub Enrichment {maxMarks?.[0].Sub_Enrichment} </th>
+                <th className="w-1/13"> Internal Assessment {5+maxMarks?.[0].Multiple_Assessment + maxMarks?.[0].Portfolio + maxMarks?.[0].Sub_Enrichment} </th>
+                <th className="w-1/13"> Annual Exam {maxMarks?.[0].annual_exam}</th>
+                <th className="w-1/13"> Total {maxMarks?.[0].grand_total} </th>
                 <th className="w-1/13"> Grade</th>
        
               </tr>

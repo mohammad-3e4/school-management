@@ -138,7 +138,7 @@ const Marks = () => {
                         />
                       </Link>
                     </>
-                  )} 
+                  )}
                 </td>
               </>
             )}
@@ -163,11 +163,25 @@ const Marks = () => {
             </>
           </React.Fragment>
         ))}
-        <td className="">
-          <Link to={`/marks/details/${marksForRollNo[0].student_id}`}>
-            <FaEye className="h-5 w-5 cursor-pointer mx-auto" title="Details" />
-          </Link>
-        </td>
+      {selectedClass?.split("-")[0] < 9 ? (
+  <td className="">
+    <Link to={`/marks/details/${marksForRollNo[0].student_id}`}>
+      <FaEye className="h-5 w-5 cursor-pointer mx-auto" title="Details" />
+    </Link>
+  </td>
+) : selectedClass?.split("-")[0] == 11 ? (
+  <td className="">
+    <Link to={`/marks/details/eleven/${marksForRollNo[0].student_id}`}>
+      <FaEye className="h-5 w-5 cursor-pointer mx-auto" title="Details" />
+    </Link>
+  </td>
+) : (
+  <td className="">
+    <Link to={`/marks/details/ninth/${marksForRollNo[0].student_id}`}>
+      <FaEye className="h-5 w-5 cursor-pointer mx-auto" title="Details" />
+    </Link>
+  </td>
+)}
       </tr>
     ));
   };
@@ -179,7 +193,7 @@ const Marks = () => {
           {`${currentUrl.split("/")[3]}  ${currentUrl.split("/")[4] || ""}`}
         </h6>
         <div className="w-1/2 flex gap-5 justify-end px-4 items-center">
-        <Select checkSubject={false} isSelect={false}/>
+        <Select checkSubject={false} />
           <FaAngleDown className="text-yellow-700 cursor-pointer" />
           <FaArrowsRotate
             className={`text-green-700 cursor-pointer ${
@@ -202,7 +216,7 @@ const Marks = () => {
         {loading ? (
           <Loader />
         ) : (
-          <table className="flex-auto  mb-20 pt-0 text-xs text-left rtl:text-right text-gray-500 dark:text-gray-400 relative overflow-x-auto shadow w-full  px-4 mx-auto  bg-white">
+          <table className="flex-auto pb-10 pt-0 text-xs text-left rtl:text-right text-gray-500 dark:text-gray-400 relative overflow-x-auto shadow w-full  px-4 mx-auto  bg-white">
             <thead className="text-xs text-gray-700 capitalize bg-white dark:bg-gray-700 dark:text-gray-400">
               <tr>
                 {thds?.map((heading, index) => (

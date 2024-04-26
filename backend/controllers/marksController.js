@@ -30,7 +30,9 @@ exports.getMarks = asyncHandler(async (req, res, next) => {
 
     if (result.length > 0) {
       res.status(200).json({ success: true, marks: result });
-    } else {
+    }  else if (result.length == 0) {
+      res.status(200).json({ success: true, marks: [] });
+    }else {
       return next(new ErrorHandler("Marks not Availabel", 404));
     }
   });
@@ -67,6 +69,9 @@ exports.getMarksBySubject = asyncHandler(async (req, res, next) => {
 
     if (result.length > 0) {
       res.status(200).json({ success: true, subjectMarks: result });
+    } 
+    else if (result.length == 0) {
+      res.status(200).json({ success: true, subjectMarks: [] });
     } else {
       return next(new ErrorHandler("Marks not Availabel", 404));
     }
@@ -123,10 +128,33 @@ exports.getMarkHeader = asyncHandler(async (req, res, next) => {
   });
 });
 
+exports.getMaxMarkHeader = asyncHandler(async (req, res, next) => {
+  const {class_name } = req.params;
+  let sql;
+  if (class_name) {
+    sql = `SHOW COLUMNS FROM max_marks_${class_name.split("-")[0]};`;
+  } else {
+    return next(new ErrorHandler("Missing parameters", 400));
+  }
 
+  db.query(sql, (err, result) => {
+    if (err) {
+      console.error("Error during retrieval:", err);
+      return next(new ErrorHandler("Error during retrieval", 500));
+    }
+
+    if (result.length > 0) {
+      const fieldKeys = result.map(row => row.Field);
+    
+    // Sending only the 'field' keys as response
+    res.status(200).json({ success: true, maxmarksHeader: fieldKeys });
+    } else {
+      return next(new ErrorHandler("Student not found", 404));
+    }
+  });
+});
 exports.getMaxMarks = asyncHandler(async (req, res, next) => {
   const { class_name } = req.params;
-  console.log(class_name.split("-")[0]);
   let sql;
     sql = `SELECT * FROM max_marks_${class_name.split("-")[0]}`;
 
@@ -137,7 +165,7 @@ exports.getMaxMarks = asyncHandler(async (req, res, next) => {
     }
 
     if (result.length > 0) {
-      res.status(200).json({ success: true, maxMarks: result[0] });
+      res.status(200).json({ success: true, maxMarks: result });
     } else {
       return next(new ErrorHandler("Student not found", 404));
     }
@@ -248,4 +276,84 @@ exports.setMaxMarks = asyncHandler(async (req, res, next) => {
         .catch((error) => {
             next(error);
         });
+});
+
+exports.editMaxMarks = asyncHandler(async (req, res, next) => {
+  const updatedMarks = req.body;
+  const { class_name } = req.params;
+console.log(class_name,updatedMarks)
+  const promises = updatedMarks.map((item) => {
+      return new Promise((resolve, reject) => {
+          let sqlSelect = `SELECT * FROM max_marks_${class_name} WHERE max_marks_id=${item.max_marks_id}`;
+          db.query(sqlSelect, (err, rows) => {
+              if (err) {
+                  console.error("Error during SELECT:", err);
+                  reject(new ErrorHandler("Error during SELECT", 500));
+              } else {
+                  if (rows.length > 0) {
+                      // If entry exists, update it
+                      let sqlUpdate = `UPDATE max_marks_${class_name} SET `;
+                      Object.keys(item).forEach((key) => {
+                          if (key !== "max_marks_id") {
+                              sqlUpdate += `${key}=${item[key]}, `;
+                          }
+                      });
+                      sqlUpdate = sqlUpdate.slice(0, -2); // Removing trailing comma and space
+                      sqlUpdate += ` where max_marks_id=${item.max_marks_id};`;
+                      
+                      db.query(sqlUpdate, (err, result) => {
+                          if (err) {
+                              console.error("Error during update:", err);
+                              reject(new ErrorHandler("Error during update", 500));
+                          } else {
+                              if (result.affectedRows > 0) {
+                                  resolve(true); // Mark as updated
+                              } else {
+                                  resolve(false); // Mark as not updated
+                              }
+                          }
+                      });
+                  } else {
+                      // If entry doesn't exist, insert it
+                      let sqlInsert = `INSERT INTO max_marks_${class_name} (max_marks_id`;
+                      let insertFields = "";
+                      let insertValues = "";
+                      Object.keys(item).forEach((key) => {
+                          if (key !== "max_marks_id") {
+                              sqlInsert += `${key}, `;
+                              insertFields += `${key}, `;
+                              insertValues += `${item[key]}, `;
+                          }
+                      });
+                      sqlInsert = sqlInsert.slice(0, -2) + ") VALUES (" + item.max_marks_id + ", " + insertValues.slice(0, -2) + ");";
+
+                      db.query(sqlInsert, (err, result) => {
+                          if (err) {
+                              console.error("Error during insert:", err);
+                              reject(new ErrorHandler("Error during insert", 500));
+                          } else {
+                              if (result.affectedRows > 0) {
+                                  resolve(true); // Mark as inserted
+                              } else {
+                                  resolve(false); // Mark as not inserted
+                              }
+                          }
+                      });
+                  }
+              }
+          });
+      });
+  });
+
+  Promise.all(promises)
+      .then((results) => {
+          if (results.includes(true)) {
+              res.status(200).json({ success: true, message: "max Marks update successful" });
+          } else {
+              next(new ErrorHandler("No changes applied", 404));
+          }
+      })
+      .catch((error) => {
+          next(error);
+      });
 });

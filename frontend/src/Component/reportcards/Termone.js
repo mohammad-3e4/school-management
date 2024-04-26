@@ -3,7 +3,7 @@ import { getStudentById } from "../../redux/studentSlice";
 import {
   clearErrors,
   clearMessage,
-  getMarksByStudentId,
+  getMarksByStudentId,getMaxMarks
 } from "../../redux/marksSlice";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,7 +14,7 @@ export default function Termone() {
   const { loading, error, message, student } = useSelector(
     (state) => state.student
   );
-  const { studentMark } = useSelector((state) => state.marks);
+  const { studentMark ,maxMarks} = useSelector((state) => state.marks);
   const dispatch = useDispatch();
 
   const { id } = useParams();
@@ -45,6 +45,7 @@ useEffect(()=>{
   let class_name=student?.class_name
   let section =student?.section
   dispatch(getMarksByStudentId({ id, class_name, section}));
+  dispatch(getMaxMarks(student.class_name));
  } 
 },[dispatch,id, student?.class_name, student?.section])
 
@@ -202,7 +203,7 @@ useEffect(()=>{
           <h2 className="text-center font-semibold text-red-500 mt-3">
             Part:1 Scholastic Area{" "}
           </h2>
-          <table className="w-full text-sm mytable" border={'2px'}>
+          <table className="w-full text-sm mytable">
           <thead>
               <tr className="text-center  text-white ">
                 <th className="bg-yellow-500"></th>
@@ -217,11 +218,11 @@ useEffect(()=>{
                 <th rowSpan={2} className="w-1/13 bg-yellow-500 font-semibold text-left p-2 text-black">
                   Subject{" "}
                 </th>
-                <th className="w-1/13"> Periodic test (10)</th>
-                <th className="w-1/13"> Note Book (5) </th>
-                <th className="w-1/13"> Sub. Enrichment (5)</th>
-                <th className="w-1/13"> Half Yearly (80) </th>
-                <th className="w-1/13"> Total (100) </th>
+                <th className="w-1/13"> Periodic test {maxMarks?.[0].weightage_term1}</th>
+                <th className="w-1/13"> Note Book {maxMarks?.[0].portfoilo_term1}</th>
+                <th className="w-1/13"> Sub. Enrichment {maxMarks?.[0].sub_enrich_act_term1}</th>
+                <th className="w-1/13"> Half Yearly {maxMarks?.[0].hly_exam_term1} </th>
+                <th className="w-1/13"> Total {maxMarks?.[0].total_marks_term1} </th>
                 <th className="w-1/13"> Grade</th>
        
               </tr>

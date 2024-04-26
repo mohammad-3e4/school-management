@@ -3,7 +3,7 @@ import { getStudentById } from "../../redux/studentSlice";
 import {
   clearErrors,
   clearMessage,
-  getMarksByStudentId,
+  getMarksByStudentId,getMaxMarks
 } from "../../redux/marksSlice";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,7 +14,7 @@ export default function SenSecondary() {
   const { loading, error, message, student } = useSelector(
     (state) => state.student
   );
-  const { studentMark } = useSelector((state) => state.marks);
+  const { studentMark ,maxMarks} = useSelector((state) => state.marks);
   const dispatch = useDispatch();
 
   const { id } = useParams();
@@ -44,6 +44,7 @@ export default function SenSecondary() {
      let class_name=student?.class_name
      let section =student?.section
      dispatch(getMarksByStudentId({ id, class_name, section}));
+     dispatch(getMaxMarks(student.class_name));
     } 
    },[dispatch,id, student?.class_name, student?.section])
   const calculateOverallTotal = () => {
@@ -112,6 +113,30 @@ export default function SenSecondary() {
   const overallData = calculateOverallTotal();
   console.log(student)
   console.log(studentMark)
+
+
+  let thds;
+
+
+  thds =[ "theory_max" ,"theory_obt" ,"practical_max" ,"practical_obt","grand_total","final_grade"]
+  const mergedData = studentMark?.map(mark => {
+      // Find the corresponding maxMark object for the current subject name
+      const maxMark = maxMarks?.find(maxmark => maxmark.subject_name === mark.subject_name);
+    
+      // Create a new object with the required properties
+      return {
+        subject_name: mark.subject_name,
+        theory_max: maxMark ? maxMark.theory_max : null,
+        theory_obt: mark.theory_obt,
+        practical_max: maxMark ? maxMark.practical_max : null,
+        practical_obt: mark.practical_obt,
+        grand_total: mark.grand_total,
+        final_grade: mark.final_grade
+      };
+    });
+
+
+
 
   return (
     <>
@@ -218,7 +243,7 @@ export default function SenSecondary() {
               </tr>
             </thead>
             <tbody>
-                {studentMark
+                {mergedData
                     ?.filter(
                         (dataRow) => dataRow.subject_name.toLowerCase() !== "overall" && dataRow.subject_name.toLowerCase() !== "it"
                     )
