@@ -56,10 +56,29 @@ exports.getNotice = catchAsyncErrors(async (request, response, next) => {
     if (result.length > 0) {
       response.status(200).json({ success: true, notice: result }); 
     } else {
+      response.status(200).json({ success: true, notice: [] }); 
+      
+    }
+  });
+});
+exports.deleteNotice = catchAsyncErrors(async (request, response, next) => {
+  const id = request.params.id;
+  const sql = `DELETE FROM noticeboard WHERE notice_id='${id}'`;
+  console.log(sql);
+  db.query(sql, (err, result) => {
+    if (err) {
+      console.error("Error during deletion:", err);
+      return next(new ErrorHandler("Error during deletion", 500));
+    }
+
+    if (result.affectedRows > 0) {
+      response.status(200).json({ message: "Notice deleted successfully" }); 
+    } else {
       return next(new ErrorHandler("Notice not found", 404)); 
     }
   });
 });
+
 
 
 exports.getNoticeFlie = catchAsyncErrors(async (req, res, next) => {

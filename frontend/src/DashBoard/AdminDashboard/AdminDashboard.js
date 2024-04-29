@@ -95,7 +95,7 @@ const totalFees = sumFeesFromMarchToMarch(fees);
 
 
   return (
-    <>
+    <div className="pb-20">
       <div className="h-auto w-full">
         <div className="lg:flex lg:justify-between">
           <IconBox icon={<MdGroups className="text-green-500 text-4xl mx-2" />} title={"Students"} count={students?.length} textsize={'text-xl'}/>
@@ -204,6 +204,6 @@ const totalFees = sumFeesFromMarchToMarch(fees);
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }

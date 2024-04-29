@@ -4,7 +4,7 @@ export const getFees = createAsyncThunk(
   "fees/getFees",
   async (selectedClass, thunkAPI) => {
     try {
-      const response = await fetch(`/api/v1/fees/class/${selectedClass}`);
+      const response = await fetch(`/api/v1/fees/class/${selectedClass || '5-1'}`);
 
       if (!response.ok) {
         const errorData = await response.json();

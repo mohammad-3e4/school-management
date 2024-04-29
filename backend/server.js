@@ -14,7 +14,7 @@ process.on('uncaughtException', (err) => {
 
 
 
-if(process.env.NODE_ENV === 'production'){
+if(process.env.NODE_ENV === 'PRODUCTION'){
   const path = require("path");
   app.use(express.static(path.join(__dirname, '../frontend/build')));
   app.get('*', (req, res) => {
@@ -26,7 +26,7 @@ if(process.env.NODE_ENV === 'production'){
 
 // Server runnig 
 const server = app.listen(process.env.PORT, () => {
-  console.log(`Server is starting on port:${process.env.PORT} in DEVELOPMENT mode`);
+  console.log(`Server is starting on port:${process.env.PORT} in ${process.env.NODE_ENV} mode`);
 });
 
 

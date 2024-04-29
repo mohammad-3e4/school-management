@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import {useDispatch, useSelector} from 'react-redux'
-import { addNotice, clearMessages, clearError } from "../redux/noticeSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { addNotice, clearMessages, clearErrors } from "../redux/noticeSlice";
+import ErrorAlert from "../BaseFiles/ErrorAlert";
 
+import SuccessAlert from "../BaseFiles/SuccessAlert";
 const NoticeModal = ({ isOpen, onClose }) => {
- const dispatch = useDispatch()
- const {loading, error, message} = useSelector((state)=>state.notices)
+  const dispatch = useDispatch();
+  const { loading, error, message } = useSelector((state) => state.notices);
   const initialValues = {
     title: "",
     text: "",
@@ -16,6 +18,7 @@ const NoticeModal = ({ isOpen, onClose }) => {
   const validationSchema = Yup.object().shape({
     title: Yup.string().required("Title is required"),
     text: Yup.string().required("Description is required"),
+    file: Yup.string().required("file is required"),
   });
 
   const formik = useFormik({
@@ -33,13 +36,29 @@ const NoticeModal = ({ isOpen, onClose }) => {
       dispatch(addNotice(formData));
     },
   });
-
+  useEffect(() => {
+    if (error) {
+      setTimeout(() => {
+        dispatch(clearErrors());
+      }, 3000);
+    }
+    if (message) {
+   
+      setTimeout(() => {
+        dispatch(clearMessages());
+        onClose()
+      }, 3000);
+    }
+  }, [error, message, formik,]);
   return (
     <>
       {isOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
           <div className="bg-white p-6 rounded-lg w-96">
             <h2 className="text-xl font-bold mb-4">Add Notice</h2>
+            {message && <SuccessAlert message={message} />}
+
+            {error && <ErrorAlert error={error} />}
             <form onSubmit={formik.handleSubmit}>
               <div className="mb-4">
                 <label htmlFor="title" className="block text-gray-700">

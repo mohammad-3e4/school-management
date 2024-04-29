@@ -10,12 +10,12 @@ export const getListOfNotice = createAsyncThunk(
 
       if (!response.ok) {
         const errorData = await response.json();
-        console.log(errorData);
+
         throw new Error(errorData.message);
       }
 
       const data = await response.json();
-      console.log(data);
+   
       return data;
     } catch (error) {
       return thunkAPI.rejectWithValue({ error: error.message });
@@ -23,12 +23,12 @@ export const getListOfNotice = createAsyncThunk(
   }
 );
 
-export const deleteNotice = createAsyncThunk(
+export const deleteNoticeById = createAsyncThunk(
   "notice/deleteNotice",
-  async (filename, thunkAPI) => {
+  async (id, thunkAPI) => {
 
     try {
-      const response = await fetch(`/api/v1/noticeboard/${filename}`, {
+      const response = await fetch(`/api/v1/noticeboard/${id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -36,9 +36,13 @@ export const deleteNotice = createAsyncThunk(
       });
 
       if (response.ok) {
-        return await response.json();
+        const data = await response.json();
+        console.log(data);
+        return data;
       } else {
-        throw new Error("Failed to update classes");
+        const errorData = await response.json();
+        console.log(errorData);
+        throw new Error(errorData.error);
       }
     } catch (error) {
       // Handle error
@@ -88,7 +92,7 @@ const noticeSlice = createSlice({
     clearMessages: (state) => {
       state.message = null;
     },
-    clearError: (state) => {
+    clearErrors: (state) => {
       state.error = null;
     }
   },
@@ -120,10 +124,23 @@ const noticeSlice = createSlice({
         state.loading = false;
         state.error = action.payload.error;
       })
+      .addCase(deleteNoticeById.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(deleteNoticeById.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = null;
+        state.message = action.payload.message;
+      })
+      .addCase(deleteNoticeById.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload.error;
+      })
    
     
   },
 });
 
-export const { clearError, clearMessages } = noticeSlice.actions;
+export const { clearErrors, clearMessages } = noticeSlice.actions;
 export default noticeSlice.reducer;
