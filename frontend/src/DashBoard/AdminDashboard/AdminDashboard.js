@@ -95,8 +95,8 @@ const totalFees = sumFeesFromMarchToMarch(fees);
 
 
   return (
-    <>
-      <div className="h-auto w-full">
+    <div className="pb-10">
+      <div className="h-auto w-full ">
         <div className="lg:flex lg:justify-between">
           <IconBox icon={<MdGroups className="text-green-500 text-4xl mx-2" />} title={"Students"} count={students?.length} textsize={'text-xl'}/>
           <IconBox icon={<GiTeacher className="text-yellow-800 text-4xl mx-2" />} title={"Staff"} count={staff?.length} textsize={'text-xl'}/>
@@ -204,6 +204,6 @@ const totalFees = sumFeesFromMarchToMarch(fees);
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }

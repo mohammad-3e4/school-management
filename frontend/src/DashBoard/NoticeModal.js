@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, {  useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import ErrorAlert from "../BaseFiles/ErrorAlert";
+import SuccessAlert from "../BaseFiles/SuccessAlert";
 import {useDispatch, useSelector} from 'react-redux'
 import { addNotice, clearMessages, clearError } from "../redux/noticeSlice";
 
@@ -33,13 +35,30 @@ const NoticeModal = ({ isOpen, onClose }) => {
       dispatch(addNotice(formData));
     },
   });
-
+  useEffect(() => {
+    if (error) {
+      const errorInterval = setInterval(() => {
+        dispatch(clearError());
+      }, 3000);
+      return () => clearInterval(errorInterval);
+    }
+    if (message) {
+      const messageInterval = setInterval(() => {
+        dispatch(clearMessages());
+        onClose()
+        formik.resetForm();
+      }, 3000);
+      return () => clearInterval(messageInterval);
+    }
+  }, [dispatch, error, message, formik]);
   return (
     <>
       {isOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
           <div className="bg-white p-6 rounded-lg w-96">
             <h2 className="text-xl font-bold mb-4">Add Notice</h2>
+            {message && <SuccessAlert message={message}/>}
+            {error && <ErrorAlert error={error}/>}
             <form onSubmit={formik.handleSubmit}>
               <div className="mb-4">
                 <label htmlFor="title" className="block text-gray-700">

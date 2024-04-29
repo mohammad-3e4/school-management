@@ -61,7 +61,7 @@ const AddBooks = () => {
   };
   return (
     <section className="py-1  w-full m-auto">
-      <div className="flex flex-wrap justify-between bg-white py-2 mb-1">
+      <div className="flex flex-wrap justify-between bg-white py-2 mb-1 m-auto w-[98%]">
         <h6 className="text-gray-700 text-xl font-semibold font-sans px-4 tracking-wider w-1/2">
           Add New Book
         </h6>
@@ -104,7 +104,8 @@ const AddBooks = () => {
       {message && <SuccessAlert message={message} />}
       {error && <ErrorAlert error={error} />}
       <div
-        className={`flex bg-white justify-center ${
+      style={{width:'98%'}}
+        className={`flex bg-white justify-center m-auto ${
           loading ? "h-[560px] items-center" : "h-full"
         }`}
       >

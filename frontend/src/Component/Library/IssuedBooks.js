@@ -38,7 +38,7 @@ export default function IssuedBooks() {
 
   return (
     <>
-      <div className="flex flex-wrap justify-between shadow bg-white py-2 mb-1">
+      <div className="flex flex-wrap justify-between shadow bg-white py-2 mb-1 m-auto w-[98%]">
         <h6 className="text-gray-700 text-xl capitalize font-semibold font-sans px-4 tracking-wider w-1/2">
           {`${currentUrl.split("/")[3]}  ${currentUrl.split("/")[4]}`}
         </h6>
@@ -56,7 +56,7 @@ export default function IssuedBooks() {
         </div>
       </div>
       <div>
-        <table className="flex-auto pb-10 pt-0 text-xs text-left rtl:text-right text-gray-500 dark:text-gray-400 relative overflow-x-auto shadow w-full  px-4 mx-auto  bg-white">
+        <table className="flex-auto m-auto w-[98%] pb-10 pt-0 text-xs text-left rtl:text-right text-gray-500 dark:text-gray-400 relative overflow-x-auto shadow px-4 mx-auto  bg-white">
           <thead className="text-xs  text-gray-700 capitalize bg-white dark:bg-gray-700 dark:text-gray-400">
             <tr>
               {thds.map((heading, index) => (

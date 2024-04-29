@@ -107,19 +107,7 @@ const CreateFees = () => {
   useEffect(() => {
     setId(formik.values.student_id);
   }, [setId, formik.values.student_id]);
-  useEffect(() => {
-    if (error) {
-      setTimeout(() => {
-        dispatch(clearErrors());
-      }, 3000);
-    }
-    if (message) {
-      formik.resetForm();
-      setTimeout(() => {
-        dispatch(clearMessage());
-      }, 3000);
-    }
-  }, [error, message, loading, formik]);
+
 
 
 
@@ -162,7 +150,7 @@ const CreateFees = () => {
 
   return (
     <section className="py-1  w-full m-auto">
-      <div className="lg:flex flex-wrap justify-between bg-white py-2 mb-1">
+      <div className="lg:flex flex-wrap justify-between bg-white py-2 mb-1 m-auto w-[98%]">
         <h6 className="text-gray-700 text-xl font-semibold font-sans px-4 tracking-wider w-1/2">
           Create Fees Payment Form
         </h6>
@@ -183,7 +171,7 @@ const CreateFees = () => {
       {message && <SuccessAlert message={message} />}
       {error && <ErrorAlert error={error} />}
       <div
-        className={`lg:flex bg-white justify-center ${
+        className={`lg:flex bg-white justify-center m-auto w-[98%] ${
           loading ? "h-[560px] items-center" : "h-full"
         }`}
       >

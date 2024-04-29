@@ -13,7 +13,6 @@ import marksReducer from './marksSlice'
 import feesReducer from "./feesSlice";
 import salaryReducer from "./salarySlice";
 import libraryReducer from "./librarySlice"
-import noticeReducer from "./noticeSlice"
 
 const rootReducer = combineReducers({
   user: userReducer, 
@@ -24,8 +23,7 @@ const rootReducer = combineReducers({
   marks:marksReducer,
   fees:feesReducer,
   salary:salaryReducer,
-  library:libraryReducer,
-  notices:noticeReducer
+  library:libraryReducer
 });
 
 const persistConfig = {

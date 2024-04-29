@@ -115,7 +115,7 @@ const CreateClass = () => {
   };
   return (
     <section className="py-1  w-full m-auto">
-      <div className="flex flex-wrap justify-between bg-white py-1 mb-1">
+      <div className="flex flex-wrap justify-between bg-white py-1 mb-1  m-auto w-[98%]">
         <h6 className="text-gray-700 text-xl font-semibold font-sans px-4 tracking-wider w-1/2">
           Create Class Form
         </h6>
@@ -137,7 +137,7 @@ const CreateClass = () => {
       {classError && <ErrorAlert error={classError} />}
       {err && <ErrorAlert error={err} />}
       <div
-        className={`flex bg-white justify-center ${
+        className={`flex bg-white justify-center  m-auto w-[98%] ${
           loading ? "h-[560px] items-center" : "h-full"
         }`}
       >
