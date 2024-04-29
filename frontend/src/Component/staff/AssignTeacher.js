@@ -61,7 +61,7 @@ const AssignTeacher = () => {
 
   return (
     <section className="py-1  w-full m-auto">
-      <div className="flex flex-wrap justify-between shadow bg-white py-2 mb-1  m-auto w-[98%]">
+      <div className="flex flex-wrap justify-between shadow bg-white py-2 mb-1">
         <h6 className="text-gray-700 text-xl capitalize font-semibold font-sans px-4 tracking-wider w-1/2">
           {`${currentUrl.split("/")[3]}  ${currentUrl.split("/")[4]}`}
         </h6>
@@ -85,7 +85,7 @@ const AssignTeacher = () => {
       {message && <SuccessAlert message={message} />}
       {error && <ErrorAlert error={error} />}
       <div
-        className={`flex bg-white justify-center  m-auto w-[98%] ${
+        className={`flex bg-white justify-center ${
           loading ? "h-[560px] items-center" : "h-full"
         }`}
       >

@@ -78,7 +78,7 @@ const UploadMaxMarks = () => {
 
 
   return (
-    <section className="py-1  w-full m-auto pb-20">
+    <section className="py-1  w-full m-auto">
       <div className="flex flex-wrap justify-between shadow bg-white py-2 mb-1">
         <h6 className="text-gray-700 text-xl capitalize font-semibold font-sans px-4 tracking-wider w-1/2">
           {`${currentUrl.split("/")[3]}  ${currentUrl.split("/")[4] || ""}`}

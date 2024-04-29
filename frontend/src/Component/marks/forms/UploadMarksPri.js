@@ -90,7 +90,7 @@ const UploadMarksPrimary = () => {
   console.log(message);
 
   return (
-    <section className="py-1  w-full m-auto pb-20">
+    <section className="py-1  w-full m-auto">
       <div className="flex flex-wrap justify-between shadow bg-white py-2 mb-1">
         <h6 className="text-gray-700 text-xl capitalize font-semibold font-sans px-4 tracking-wider w-1/2">
           {`${currentUrl.split("/")[3]}  ${currentUrl.split("/")[4] || ""}`}
@@ -610,7 +610,7 @@ const UploadMarksPrimary = () => {
                   {marksHeader
                     ?.filter(
                       (header) =>
-                        header !== "mark_id" &&
+                        header !== "marks_id" &&
                         header !== "student_id" &&
                         header !== "subject_name"
                     )
@@ -642,7 +642,7 @@ const UploadMarksPrimary = () => {
                     </td>
                     {marksHeader?.map((header) => {
                       if (
-                        header !== "mark_id" &&
+                        header !== "marks_id" &&
                         header !== "student_id" &&
                         header !== "subject_name" &&
                         header !== "grand_total" &&
@@ -702,21 +702,6 @@ const UploadMarksPrimary = () => {
                         }
                         return (
                           <>
-                           
-                            <td key={header} style={{ width: "auto" }}>
-                              <input
-                                type="number"
-                                className={` text-center border-0 placeholder-blueGray-300 focus:bg-white text-gray-600 bg-white rounded-sm text-sm shadow focus:outline-none w-full ease-linear transition-all duration-150 border-red-500`}
-                                placeholder={grade || ""}
-                                onChange={(e) =>
-                                  handleInputChange(
-                                    student.student_id,
-                                    header,
-                                    grade
-                                  )
-                                }
-                              />
-                            </td>
                             <td key={header} style={{ width: "auto" }}>
                               <input
                                 type="number"
@@ -727,6 +712,20 @@ const UploadMarksPrimary = () => {
                                     student.student_id,
                                     header,
                                     totalMarks
+                                  )
+                                }
+                              />
+                            </td>
+                            <td key={header} style={{ width: "auto" }}>
+                              <input
+                                type="number"
+                                className={` text-center border-0 placeholder-blueGray-300 focus:bg-white text-gray-600 bg-white rounded-sm text-sm shadow focus:outline-none w-full ease-linear transition-all duration-150 border-red-500`}
+                                placeholder={grade || ""}
+                                onChange={(e) =>
+                                  handleInputChange(
+                                    student.student_id,
+                                    header,
+                                    grade
                                   )
                                 }
                               />

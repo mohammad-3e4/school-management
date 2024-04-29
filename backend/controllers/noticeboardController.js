@@ -9,20 +9,20 @@ const fs = require('fs');
 
 
 exports.createNotice = async (req, res, next) => {
-
+  console.log(req.body)
   const  title = req.body.title;
   const text = req.body.text;
   const  date = req.body.date;
   const  time  = req.body.time;
   const file = req.files.file;
-
+  console.log(file);
   if (!file) {
     return res.status(400).json({ message: "No file uploaded" });
   }
   const folderPath = path.join(
     __dirname,
     "..",
-    "noticefiles"
+    "noticebord"
   );
 
   fs.mkdirSync(folderPath, { recursive: true });
