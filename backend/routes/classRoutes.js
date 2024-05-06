@@ -16,11 +16,11 @@ const {
   getClassSubject
 } = require("../controllers/classController");
 router
-  .get("/", isAuthenticatedUser, authorizeRoles("admin", 'teacher'), getClasses)
+  .get("/", getClasses)
   .post("/", isAuthenticatedUser, authorizeRoles("admin"), createClass);
 router
   .route("/subject")
-  .get(isAuthenticatedUser, authorizeRoles("admin", 'teacher'), getSubjectsFromClas)
+  .get( getSubjectsFromClas)
   .post(isAuthenticatedUser, authorizeRoles("admin"), addSubjectInClass)
   .delete(isAuthenticatedUser, authorizeRoles("admin"), removeSubjectFromClass);
 

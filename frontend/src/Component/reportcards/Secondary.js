@@ -3,7 +3,7 @@ import { getStudentById } from "../../redux/studentSlice";
 import {
   clearErrors,
   clearMessage,
-  getMarksByStudentId,getMaxMarks
+  getMarksByStudentId,getMaxMarks,getScholasticMarksByStudentId
 } from "../../redux/marksSlice";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,13 +14,15 @@ export default function Secondary() {
   const { loading, error, message, student } = useSelector(
     (state) => state.student
   );
-  const { studentMark,maxMarks } = useSelector((state) => state.marks);
+  const { studentMark,maxMarks,scholastic } = useSelector((state) => state.marks);
   const dispatch = useDispatch();
 
   const { id } = useParams();
 
   useEffect(() => {
     dispatch(getStudentById(id));
+    dispatch(getScholasticMarksByStudentId(id));
+
     if (error) {
       const errorInterval = setInterval(() => {
         dispatch(clearErrors());
@@ -48,7 +50,7 @@ export default function Secondary() {
     } 
    },[dispatch,id, student?.class_name, student?.section])
 
-  const calculateOverallTotal = () => {
+let calculateOverallTotal = () => {
     let t1_overallTotal = 0;
     let totalOutOf = 0;
     let fail_total = false;
@@ -297,19 +299,21 @@ export default function Secondary() {
             </thead>
             <tbody className="text-center">
               <tr>
-                <td className="p-1 px-5 text-left font-semibold">Art</td>
-                <td>A</td>
-  
-              </tr>
-              <tr>
-                <td className="p-1 px-5 text-left font-semibold">Work</td>
-                <td>B</td>
+                <td className="p-1 px-5 text-left font-semibold">Art And Education</td>
+                <td>{scholastic?.[0].Art_and_Education_term1 || ""}</td>
+              
 
               </tr>
               <tr>
-                <td className="p-1 px-5 text-left font-semibold">Health</td>
-                <td>C</td>
- 
+              <td className=" px-5 text-left font-semibold">Work Education</td>
+                <td>{scholastic?.[0].work_education_term1 || ""}</td> 
+               
+
+              </tr>
+              <tr>
+                <td className=" px-5 text-left font-semibold">Health</td>
+                <td>{scholastic?.[0].health_term1 || ""}</td>
+
               </tr>
             </tbody>
           </table>

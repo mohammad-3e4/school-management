@@ -3,7 +3,7 @@ import { getStudentById } from "../../redux/studentSlice";
 import {
   clearErrors,
   clearMessage,
-  getMarksByStudentId,getMaxMarks
+  getMarksByStudentId,getMaxMarks,getScholasticMarksByStudentId
 } from "../../redux/marksSlice";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,13 +14,14 @@ export default function Termone() {
   const { loading, error, message, student } = useSelector(
     (state) => state.student
   );
-  const { studentMark ,maxMarks} = useSelector((state) => state.marks);
+  const { studentMark ,maxMarks,scholastic} = useSelector((state) => state.marks);
   const dispatch = useDispatch();
 
   const { id } = useParams();
 
   useEffect(() => {
     dispatch(getStudentById(id));
+    dispatch(getScholasticMarksByStudentId(id));
     if (error) {
       const errorInterval = setInterval(() => {
         dispatch(clearErrors());
@@ -50,7 +51,7 @@ useEffect(()=>{
 },[dispatch,id, student?.class_name, student?.section])
 
 
-  const calculateOverallTotal = () => {
+const calculateOverallTotal = () => {
     let t1_overallTotal = 0;
     let totalOutOf = 0;
     let fail_total = false;
@@ -71,7 +72,7 @@ useEffect(()=>{
         totalOutOf += totalOutOfLocal;
       });
 
-    const t1_percentage = ((t1_overallTotal / totalOutOf) * 100).toFixed(2);
+    let t1_percentage = ((t1_overallTotal / totalOutOf) * 100).toFixed(2);
 
     let t1_grade;
     if (t1_percentage >= 90) {
@@ -288,25 +289,25 @@ useEffect(()=>{
             </thead>
             <tbody className="text-center">
               <tr>
-                <td className="p-1 px-5 text-left font-semibold">Art</td>
-                <td>A</td>
+                <td className="p-1 px-5 text-left font-semibold">Art And Education</td>
+                <td>{scholastic?.[0].Art_and_Education_term1 || ""}</td>
               
-                <td className=" px-5 text-left font-semibold">Art 2</td>
-                <td>A</td> 
+                <td className=" px-5 text-left font-semibold">Work Education</td>
+                <td>{scholastic?.[0].work_education_term1 || ""}</td> 
               </tr>
               <tr>
-                <td className=" px-5 text-left p-1 font-semibold">Work</td>
-                <td>B</td>
-               
-                <td className=" px-5 text-leftfont-semibold">Work2</td>
-                <td>B</td> 
-              </tr>
-              <tr>
-                <td className=" px-5 text-leftp-1 font-semibold">Health</td>
-                <td>C</td>
+                <td className=" px-5 text-left p-1 font-semibold">Computer</td>
+                <td>{scholastic?.[0].computer_term1 || ""}</td>
                
                 <td className=" px-5 text-left font-semibold">Health</td>
-                <td>C</td> 
+                <td>{scholastic?.[0].health_term1 || ""}</td> 
+              </tr>
+              <tr>
+                <td className=" px-5 text-left font-semibold">GK</td>
+                <td>{scholastic?.[0].gk_term1 || ""}</td>
+               
+                <td className=" px-5 text-left font-semibold">Discipline</td>
+                <td>{scholastic?.[0].dicipline_term1 || ""}</td> 
               </tr>
             </tbody>
           </table>

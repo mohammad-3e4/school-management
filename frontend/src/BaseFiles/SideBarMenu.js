@@ -85,7 +85,7 @@ const SidebarMenu = ({ toggleSidebar }) => {
                   label="Dashboard"
                   icon={<MdOutlineDashboard className="text-yellow-600" />}
                 > */}
-                <Link to={`/dashboard`}>
+                <Link to={`/student/dashboard`}>
                   <MenuItem
                     icon={<MdOutlineDashboard className="text-yellow-600" />}
                   >
@@ -206,6 +206,10 @@ const SidebarMenu = ({ toggleSidebar }) => {
                   <Link to="/upload/maxmarks">
                     {" "}
                     <MenuItem>Upload Max Marks</MenuItem>{" "}
+                  </Link>
+                  <Link to="/upload/scholastic">
+                    {" "}
+                    <MenuItem>Upload scholastic </MenuItem>{" "}
                   </Link>
                 </SubMenu>
                 <hr />{" "}

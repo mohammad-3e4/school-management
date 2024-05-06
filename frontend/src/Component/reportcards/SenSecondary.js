@@ -47,7 +47,7 @@ export default function SenSecondary() {
      dispatch(getMaxMarks(student.class_name));
     } 
    },[dispatch,id, student?.class_name, student?.section])
-  const calculateOverallTotal = () => {
+let calculateOverallTotal = () => {
     let t1_overallTotal = 0;
     let totalOutOf = 0;
     let fail_total = false;
@@ -283,7 +283,7 @@ export default function SenSecondary() {
                   Total
                 </td>
                 <td colSpan={3} className="bg-green-500 text-white">
-                  Marks : {overallData.t1_overallTotal} /{" "}
+                  Marks : {overallData?.t1_overallTotal} /{" "}
                   {overallData.totalOutOf}
                 </td>
 

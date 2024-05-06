@@ -19,6 +19,7 @@ import AssignTeacher from "./Component/staff/AssignTeacher";
 import CreateClass from "./Component/Classes/CreateClass";
 import EditClass from "./Component/Classes/EditClass";
 import Attendance from "./Component/student/Attendance";
+import MyAttendance from "./DashBoard/StudentDashboard/Attendance.js";
 import StaffAttendance from "./Component/staff/Attendance";
 import Marks from "./Component/marks/Marks";
 import StudentDashboard from "./DashBoard/StudentDashboard/StudentDashboard";
@@ -45,6 +46,7 @@ import { useDispatch, useSelector } from "react-redux";
 import UploadMaxMarks from "./Component/marks/forms/UploadMaxMarks.js";
 import MarksDetailNine from "./Component/marks/MarksDetailNine.js";
 import MarksDetailEleven from "./Component/marks/MarksDetaileleven.js";
+import UploadScholastic from "./Component/marks/forms/UploadCoScholastic.js";
 function App() {
   const {user} = useSelector((state)=>state.user)
   return (
@@ -101,21 +103,21 @@ function App() {
             }
           />
           <Route
-            path="/dashboard/student"
+            path="/student/dashboard/"
             element={
               <Layout>
                 <StudentDashboard />
               </Layout>
             }
           />
-          <Route
-            path="/dashboard/parent"
+          {/* <Route
+            path="/parent/dashboard/"
             element={
               <Layout>
                 <ParentDashboard />
               </Layout>
             }
-          />
+          /> */}
           <Route
             path="/student/create"
             element={
@@ -228,6 +230,15 @@ function App() {
               </Layout>
             }
           />
+           <Route
+            path="/upload/scholastic"
+            element={
+              <Layout>
+                <UploadScholastic />
+              </Layout>
+            }
+          />
+      
           <Route
             path="/marks/details/ninth/:id"
             element={
@@ -326,7 +337,7 @@ function App() {
           path="/my/attendance"
           element={
             <Layout>
-              <Attendance />
+              <MyAttendance />
             </Layout>
           }
         />

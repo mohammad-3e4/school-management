@@ -3,7 +3,7 @@ import { getStudentById } from "../../redux/studentSlice";
 import {
   clearErrors,
   clearMessage,
-  getMarksByStudentId,getMaxMarks
+  getMarksByStudentId,getMaxMarks,getScholasticMarksByStudentId
 } from "../../redux/marksSlice";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,13 +14,14 @@ export default function Termtwo() {
   const { loading, error, message, student } = useSelector(
     (state) => state.student
   );
-  const { studentMark,maxMarks } = useSelector((state) => state.marks);
+  const { studentMark,maxMarks,scholastic } = useSelector((state) => state.marks);
   const dispatch = useDispatch();
 
   const { id } = useParams();
 
   useEffect(() => {
     dispatch(getStudentById(id));
+    dispatch(getScholasticMarksByStudentId(id));
     if (error) {
       const errorInterval = setInterval(() => {
         dispatch(clearErrors());
@@ -72,8 +73,8 @@ export default function Termtwo() {
         totalOutOf += totalOutOfLocal;
       });
 
-    const t1_percentage = ((t1_overallTotal / totalOutOf) * 100).toFixed(2);
-    const t2_percentage = ((t2_overallTotal / totalOutOf) * 100).toFixed(2);
+   let t1_percentage = ((t1_overallTotal / totalOutOf) * 100).toFixed(2);
+    let t2_percentage = ((t2_overallTotal / totalOutOf) * 100).toFixed(2);
 
     let t1_grade;
     if (t1_percentage >= 90) {
@@ -334,28 +335,37 @@ export default function Termtwo() {
             </thead>
             <tbody className="text-center">
               <tr>
-                <td className="p-1">A</td>
-                <td>A</td>
-                <td>A</td>
-                <td>A</td>
-                <td>A</td>
-                <td>A</td>
+                <td className="p-1 px-5 text-left font-semibold">Art And Education</td>
+                <td>{scholastic?.[0].Art_and_Education_term1 || ""}</td>
+                <td>{scholastic?.[0].Art_and_Education_term2 || ""}</td>
+
+              
+                <td className=" px-5 text-left font-semibold">Work Education</td>
+                <td>{scholastic?.[0].work_education_term1 || ""}</td> 
+                <td>{scholastic?.[0].work_education_term2 || ""}</td> 
+
               </tr>
               <tr>
-                <td className="p-1">B</td>
-                <td>B</td>
-                <td>B</td>
-                <td>B</td>
-                <td>B</td>
-                <td>B</td>
+                <td className=" px-5 text-left p-1 font-semibold">Computer</td>
+                <td>{scholastic?.[0].computer_term1 || ""}</td>
+                <td>{scholastic?.[0].computer_term2 || ""}</td>
+
+               
+                <td className=" px-5 text-left font-semibold">Health</td>
+                <td>{scholastic?.[0].health_term1 || ""}</td> 
+                <td>{scholastic?.[0].health_term2 || ""}</td> 
+
               </tr>
               <tr>
-                <td className="p-1">C</td>
-                <td>C</td>
-                <td>C</td>
-                <td>C</td>
-                <td>C</td>
-                <td>C</td>
+                <td className=" px-5 text-left font-semibold">GK</td>
+                <td>{scholastic?.[0].gk_term1 || ""}</td>
+                <td>{scholastic?.[0].gk_term2 || ""}</td>
+
+               
+                <td className=" px-5 text-left font-semibold">Discipline</td>
+                <td>{scholastic?.[0].dicipline_term1 || ""}</td> 
+                <td>{scholastic?.[0].dicipline_term2 || ""}</td> 
+
               </tr>
             </tbody>
           </table>
