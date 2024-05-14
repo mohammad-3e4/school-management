@@ -4,7 +4,7 @@ dotenv.config({ path: "./config.env" });
 const connection = mysql.createConnection({
   host: 'localhost',
   user:  'root',
-  password: 'toor12345',
+  password: 'admin@root123',
   database:  'school',
   waitForConnections: true,
   connectionLimit: 10,

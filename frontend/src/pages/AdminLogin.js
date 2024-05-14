@@ -46,13 +46,9 @@ const AdminLogin = () => {
     if (user === null) {
       navigate("/");
     } else {
-      if(user?.role === 'student'){
-        navigate("/student/dashboard");
-      }else{
-        navigate("/admin/dashboard");
-      }
+      navigate("/admin/dashboard");
     }
-  }, [error, dispatch, navigate, user, clearErrors]);
+  }, [error, dispatch, navigate, user]);
 
   return (
     <>

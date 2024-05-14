@@ -67,7 +67,7 @@ const MarksDetail = () => {
 
 
 
-
+ console.log(studentMark);
 
   const renderTableRows = () => {
     return studentMark?.map((mark, index) => (

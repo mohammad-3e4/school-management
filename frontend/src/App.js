@@ -19,7 +19,6 @@ import AssignTeacher from "./Component/staff/AssignTeacher";
 import CreateClass from "./Component/Classes/CreateClass";
 import EditClass from "./Component/Classes/EditClass";
 import Attendance from "./Component/student/Attendance";
-import MyAttendance from "./DashBoard/StudentDashboard/Attendance.js";
 import StaffAttendance from "./Component/staff/Attendance";
 import Marks from "./Component/marks/Marks";
 import StudentDashboard from "./DashBoard/StudentDashboard/StudentDashboard";
@@ -103,21 +102,21 @@ function App() {
             }
           />
           <Route
-            path="/student/dashboard/"
+            path="/dashboard/student"
             element={
               <Layout>
                 <StudentDashboard />
               </Layout>
             }
           />
-          {/* <Route
-            path="/parent/dashboard/"
+          <Route
+            path="/dashboard/parent"
             element={
               <Layout>
                 <ParentDashboard />
               </Layout>
             }
-          /> */}
+          />
           <Route
             path="/student/create"
             element={
@@ -337,7 +336,7 @@ function App() {
           path="/my/attendance"
           element={
             <Layout>
-              <MyAttendance />
+              <Attendance />
             </Layout>
           }
         />

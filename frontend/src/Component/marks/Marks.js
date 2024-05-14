@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Loader from "../../BaseFiles/Loader";
-import { FaAngleDown, FaArrowsRotate, FaXmark, FaEye } from "react-icons/fa6";
+import { FaAngleDown, FaArrowsRotate, FaXmark, FaEye, FaFileExport  } from "react-icons/fa6";
 import ErrorAlert from "../../BaseFiles/ErrorAlert";
 import SuccessAlert from "../../BaseFiles/SuccessAlert";
 import { useEffect, useState } from "react";
@@ -14,22 +14,22 @@ const Marks = () => {
     (state) => state.marks
   );
 
-  const { classes,selectedClass,selectedSubject} = useSelector(
+  const { classes, selectedClass, selectedSubject } = useSelector(
     (state) => state.classes
   );
   const dispatch = useDispatch();
   const [rotate, setRotate] = useState(false);
 
   // Ensure selectedClass_name is properly initialized
-  let selectedClass_name = '';
-  if(selectedClass){
-    selectedClass_name = selectedClass.replace('-', "_").toLowerCase();
-
+  let selectedClass_name = "";
+  if (selectedClass) {
+    selectedClass_name = selectedClass.replace("-", "_").toLowerCase();
   }
 
   useEffect(() => {
-    if(selectedClass_name){
-    dispatch(getMarks(selectedClass_name))};
+    if (selectedClass_name) {
+      dispatch(getMarks(selectedClass_name));
+    }
     if (error) {
       const errorInterval = setInterval(() => {
         dispatch(clearErrors());
@@ -72,7 +72,7 @@ const Marks = () => {
       >
         {marksForRollNo.map((student, index) => (
           <React.Fragment key={index}>
-            {index === 0 && ( 
+            {index === 0 && (
               <>
                 <td className="px-2 py-2 border-r-2 border-gray-200">
                   {student.roll_no}
@@ -163,37 +163,159 @@ const Marks = () => {
             </>
           </React.Fragment>
         ))}
-      {selectedClass?.split("-")[0] < 9 ? (
-  <td className="">
-    <Link to={`/marks/details/${marksForRollNo[0].student_id}`}>
-      <FaEye className="h-5 w-5 cursor-pointer mx-auto" title="Details" />
-    </Link>
-  </td>
-) : selectedClass?.split("-")[0] == 11 ? (
-  <td className="">
-    <Link to={`/marks/details/eleven/${marksForRollNo[0].student_id}`}>
-      <FaEye className="h-5 w-5 cursor-pointer mx-auto" title="Details" />
-    </Link>
-  </td>
-) : (
-  <td className="">
-    <Link to={`/marks/details/ninth/${marksForRollNo[0].student_id}`}>
-      <FaEye className="h-5 w-5 cursor-pointer mx-auto" title="Details" />
-    </Link>
-  </td>
-)}
+        {selectedClass?.split("-")[0] < 9 ? (
+          <td className="">
+            <Link to={`/marks/details/${marksForRollNo[0].student_id}`}>
+              <FaEye
+                className="h-5 w-5 cursor-pointer mx-auto"
+                title="Details"
+              />
+            </Link>
+          </td>
+        ) : selectedClass?.split("-")[0] == 11 ? (
+          <td className="">
+            <Link to={`/marks/details/eleven/${marksForRollNo[0].student_id}`}>
+              <FaEye
+                className="h-5 w-5 cursor-pointer mx-auto"
+                title="Details"
+              />
+            </Link>
+          </td>
+        ) : (
+          <td className="">
+            <Link to={`/marks/details/ninth/${marksForRollNo[0].student_id}`}>
+              <FaEye
+                className="h-5 w-5 cursor-pointer mx-auto"
+                title="Details"
+              />
+            </Link>
+          </td>
+        )}
       </tr>
     ));
   };
   let class_name = 11;
+  function extractInfo(obj) {
+    return {
+      student_id: obj.student_id,
+      student_name: obj.student_name,
+      class_name: obj.class_name,
+      subject: obj.subject_name,
+      total_marks_term1: obj.total_marks_term1,
+      total_marks_term2: obj.total_marks_term2,
+      roll_no: obj.roll_no,
+    };
+  }
+
+  const extractedData = [];
+  for (const classId in groupedMarks) {
+    if (groupedMarks.hasOwnProperty(classId)) {
+      groupedMarks[classId].forEach((student) => {
+        extractedData.push(extractInfo(student));
+      });
+    }
+  }
+
+  function transformData(data) {
+    const transformedData = {};
+
+    // Iterate over each student data
+    data.forEach((student) => {
+      const {
+        student_id,
+        student_name,
+        class_name,
+        subject,
+        total_marks_term1,
+        total_marks_term2,
+        roll_no,
+      } = student;
+
+      // Check if student data already exists in transformed data
+      if (!transformedData[student_id]) {
+        // If not, create a new entry for the student
+        transformedData[student_id] = {
+          student_id,
+          student_name,
+          class_name,
+          roll_no,
+        };
+      }
+
+      // Add subject marks for each term
+      transformedData[student_id][`${subject}_term1`] = total_marks_term1;
+      transformedData[student_id][`${subject}_term2`] = total_marks_term2;
+    });
+
+    // Convert the transformed data object to an array of objects
+    const transformedArray = Object.values(transformedData);
+
+    return transformedArray;
+  }
+
+  // Call the function to transform the data
+  const transformedArray = transformData(extractedData);
+
+
+
+  const ExtractedDataCsvDownloader = ({ transformedArray }) => {
+    // Function to convert array of objects to CSV format
+    const convertToCSV = (objArray) => {
+      const headings = [
+        "roll_no",
+        "student_id",
+        "student_name",
+        "class_name",
+        "english_term1",
+        "english_term2",
+        "punjabi_term1",
+        "punjabi_term2",
+        "math_term1",
+        "math_term2"
+      ];
+  
+      // Add the headings as the first row
+      let csvContent = headings.join(",") + "\n";
+  
+      // Map object keys to custom headings
+      csvContent += objArray?.map((row) => {
+        return headings.map((heading) => {
+          return row[heading];
+        }).join(",");
+      }).join("\n");
+  
+      return csvContent;
+    };
+  
+    // Function to download CSV file
+    const downloadCSV = () => {
+      const csvContent = convertToCSV(transformedArray);
+      const blob = new Blob([csvContent], { type: "text/csv" });
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", "consolidate.csv");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    };
+  
+    return (
+      <button className="bg-gray-200 text-sm px-3 py-2 hover:bg-gray-50 flex justify-between gap-3 items-center" onClick={downloadCSV}>
+        Export data <FaFileExport className="text-yellow-700" />
+      </button>
+    );
+  };
   return (
     <section className="py-1  w-full m-auto pb-20">
       <div className="flex flex-wrap justify-between shadow bg-white py-2 mb-1">
         <h6 className="text-gray-700 text-xl capitalize font-semibold font-sans px-4 tracking-wider w-1/2">
           {`${currentUrl.split("/")[3]}  ${currentUrl.split("/")[4] || ""}`}
         </h6>
+        
         <div className="w-1/2 flex gap-5 justify-end px-4 items-center">
-        <Select checkSubject={false} />
+        <ExtractedDataCsvDownloader transformedArray={transformedArray}/>
+          <Select checkSubject={false} />
           <FaAngleDown className="text-yellow-700 cursor-pointer" />
           <FaArrowsRotate
             className={`text-green-700 cursor-pointer ${
@@ -289,7 +411,7 @@ const Marks = () => {
               )}
             </thead>
             <tbody>
-              {marks?.length ===0 ? (
+              {marks?.length === 0 ? (
                 <tr>
                   <td colSpan={thds.length + 1} className="text-center py-5">
                     No data found

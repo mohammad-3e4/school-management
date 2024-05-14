@@ -231,25 +231,6 @@ exports.getAbsents = asyncHandler(async (req, res, next) => {
   });
 });
 
-exports.getStudentAbsents = catchAsyncErrors(async (req, res, next) => {
-  const studentId = req.params.studentId; 
-
-  const sql = "SELECT * FROM attendance WHERE student_id = ?";
-
-  db.query(sql, [studentId], (err, result) => {
-    if (err) {
-      console.error("Error during retrieval:", err);
-      return next(new ErrorHandler("Error during retrieval", 500));
-    }
-  
-    if (result.length > 0) {
-      res.status(200).json({ success: true, absents: result });
-    } else {
-      res.status(200).json({ success: true, absents: [] });
-    }
-  });
-});
-
 exports.uploadDocuments = asyncHandler(async (req, res, next) => {
   const studentId = req.params.student_id;
   const documentName = req.body.document_name;

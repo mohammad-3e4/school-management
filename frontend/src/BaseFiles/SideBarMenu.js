@@ -85,7 +85,7 @@ const SidebarMenu = ({ toggleSidebar }) => {
                   label="Dashboard"
                   icon={<MdOutlineDashboard className="text-yellow-600" />}
                 > */}
-                <Link to={`/student/dashboard`}>
+                <Link to={`/dashboard`}>
                   <MenuItem
                     icon={<MdOutlineDashboard className="text-yellow-600" />}
                   >

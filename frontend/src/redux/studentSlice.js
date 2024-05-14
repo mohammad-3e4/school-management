@@ -204,26 +204,6 @@ export const getAbsents = createAsyncThunk(
     }
   }
 );
-export const getStudentAbsents = createAsyncThunk(
-  "student/studentAbsensts",
-  async (studentId, thunkAPI) => {
-    try {
-      const response = await fetch(`http://localhost:8000/api/v1/student/absents/1`);
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || errorData.error);
-      }
-
-      const data = await response.json();
-      console.log(data);
-      return data;
-    } catch (error) {
-      // Handle error
-      return thunkAPI.rejectWithValue({ error: error.message });
-    }
-  }
-);
 
 export const uploadDocuments = createAsyncThunk(
   "student/uploadDocuments",
@@ -426,19 +406,6 @@ const studentSlice = createSlice({
         state.absents = action.payload.absents;
       })
       .addCase(getAbsents.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload.error;
-      })
-      .addCase(getStudentAbsents.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(getStudentAbsents.fulfilled, (state, action) => {
-        state.loading = false;
-        state.error = null;
-        state.absents = action.payload.absents;
-      })
-      .addCase(getStudentAbsents.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload.error;
       })

@@ -125,7 +125,7 @@ export default function NavbarMenu() {
                                   "block px-4 py-2 text-sm text-gray-700"
                                 )}
                               >
-                                {user.staff_name || user.student_name}
+                                {user.staff_name}
                               </Link>
                             )}
                            

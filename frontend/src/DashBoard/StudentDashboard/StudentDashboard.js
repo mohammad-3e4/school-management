@@ -30,13 +30,12 @@ export default function StudentDashboard() {
 
   useEffect(() => {
     if (user && user?.class_name) {
-    // dispatch(getFeesByStudentId(user?.student_id))
-  };
+    dispatch(getFeesByStudentId(user?.student_id))};
   }, [dispatch,user?.student_id]);
 
   useEffect(() => {
     if (user && user?.class_name) {
-      // dispatch(getFeeStructureByClass(user?.class_name));
+      dispatch(getFeeStructureByClass(user?.class_name));
     }
   }, [user?.class_name, dispatch]);
   return (

@@ -18,7 +18,6 @@ const {
   getStudentDocumentsById,
   deleteStudentDocument,
   uploadStudents,
-  getStudentAbsents,
 } = require("../controllers/studentController");
 
 // Route to get all students
@@ -35,7 +34,7 @@ router.delete("/present", markPresent);
 // Routes for individual student
 router
   .route("/:id")
-  .get( getStudent)
+  .get(isAuthenticatedUser, authorizeRoles("teacher", "admin"), getStudent)
   .delete(isAuthenticatedUser, authorizeRoles("admin"), deleteStudent)
   .post(isAuthenticatedUser, authorizeRoles("admin"), updateStudent);
 
@@ -51,7 +50,6 @@ router.post(
   authorizeRoles("admin", "teacher"),
   uploadStudents
 );
-router.route('/absents/:studentId').get(getStudentAbsents)
 
 router
   .route("/upload/:student_id")

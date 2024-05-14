@@ -188,6 +188,7 @@ const UploadMarksPrimary = () => {
                                         mark.student_id === student.student_id
                                     )?.[header] || ""
                                   }
+                                  disabled={header === "best_of_two_term1" || header === "total_marks_term1" }
                                   onChange={(e) =>
                                     handleInputChange(
                                       student.student_id,
@@ -347,6 +348,7 @@ const UploadMarksPrimary = () => {
                                         mark.student_id === student.student_id
                                     )?.[header] || ""
                                   }
+                                  disabled={header ==="best_of_two"}
                                   onChange={(e) =>
                                     handleInputChange(
                                       student.student_id,

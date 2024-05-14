@@ -73,7 +73,8 @@ export const updateClasses = createAsyncThunk(
       return thunkAPI.rejectWithValue({ error: error.message });
     }
   }
-);   
+);
+
 export const AssignSubject = createAsyncThunk(
   "classes/assignSubject",
   async ({teacher_id, class_name, subject}, thunkAPI) => {

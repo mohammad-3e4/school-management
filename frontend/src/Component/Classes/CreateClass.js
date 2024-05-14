@@ -173,9 +173,9 @@ const CreateClass = () => {
                         }`}
                       >
                         <option value="">Choose a Class</option>
-                        <option value="pn_13">Pre Nursery</option>
-                        <option value="n_14">Nursery</option>
-                        <option value="n_13">KG</option>
+                        <option value="prenursery_15">Pre Nursery</option>
+                        <option value="nursery_14">Nursery</option>
+                        <option value="kg_13">KG</option>
                         <option value="first_1">1</option>
                         <option value="second_2">2</option>
                         <option value="third_3">3</option>

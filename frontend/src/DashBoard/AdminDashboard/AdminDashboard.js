@@ -20,6 +20,7 @@ import { useEffect, useState } from "react";
 import { clearErrors,  clearMessage, getStudents} from "../../redux/studentSlice";
 import { getFees } from "../../redux/feesSlice";
 import { getStaff} from "../../redux/staffSlice";
+import GraphOne from "../../Component/Graphs/GraphOne";
 
 
 export default function AdminDashboard() {
@@ -99,6 +100,14 @@ const totalFees = sumFeesFromMarchToMarch(fees);
       <div className="h-auto w-full">
         <div className="lg:flex lg:justify-between">
           <IconBox icon={<MdGroups className="text-green-500 text-4xl mx-2" />} title={"Students"} count={students?.length} textsize={'text-xl'}/>
+          <IconBox icon={<GiTeacher className="text-yellow-800 text-4xl mx-2" />} title={"Staff"} count={staff?.length} textsize={'text-xl'}/>
+          <IconBox icon={<MdFamilyRestroom className="text-blue-800 text-4xl mx-2" />} title={"Parents"} count={numUniqueParents} textsize={'text-xl'}/>
+          <IconBox icon={<FaRupeeSign className="text-pink-800 text-4xl mx-2" />} title={"Earning"} count={totalFees} textsize={'text-xl'}/>
+        </div>
+      </div>
+      <div className="h-auto w-full">
+        <div className="lg:flex lg:justify-between">
+         < GraphOne/>
           <IconBox icon={<GiTeacher className="text-yellow-800 text-4xl mx-2" />} title={"Staff"} count={staff?.length} textsize={'text-xl'}/>
           <IconBox icon={<MdFamilyRestroom className="text-blue-800 text-4xl mx-2" />} title={"Parents"} count={numUniqueParents} textsize={'text-xl'}/>
           <IconBox icon={<FaRupeeSign className="text-pink-800 text-4xl mx-2" />} title={"Earning"} count={totalFees} textsize={'text-xl'}/>
