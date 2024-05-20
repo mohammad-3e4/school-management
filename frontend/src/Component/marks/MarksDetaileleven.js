@@ -99,7 +99,7 @@ const MarksDetailEleven = () => {
       };
 console.log(mergedData)
   return (
-    <div className="px-2">
+    <div className="px-2 pb-12">
       <div className="w-full bg-black text-white text-center text-lg">
         <p>
           Marks detail of {student?.student_name} student of class{" "}

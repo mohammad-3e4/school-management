@@ -197,7 +197,7 @@ const SidebarMenu = ({ toggleSidebar }) => {
                   icon={<PiExam className="text-yellow-600" />}
                 >
                   <Link to="/marks">
-                    <MenuItem>Marks Detail</MenuItem>
+                    <MenuItem>Report Card</MenuItem>
                   </Link>
                   <Link to="/upload/marks">
                     {" "}

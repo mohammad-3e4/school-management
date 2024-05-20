@@ -21,6 +21,8 @@ import { clearErrors,  clearMessage, getStudents} from "../../redux/studentSlice
 import { getFees } from "../../redux/feesSlice";
 import { getStaff} from "../../redux/staffSlice";
 import GraphOne from "../../Component/Graphs/GraphOne";
+import GraphTwo from "../../Component/Graphs/GraphTwo";
+
 
 
 export default function AdminDashboard() {
@@ -106,12 +108,10 @@ const totalFees = sumFeesFromMarchToMarch(fees);
         </div>
       </div>
       <div className="h-auto w-full">
-        <div className="lg:flex lg:justify-between">
-         < GraphOne/>
-          <IconBox icon={<GiTeacher className="text-yellow-800 text-4xl mx-2" />} title={"Staff"} count={staff?.length} textsize={'text-xl'}/>
-          <IconBox icon={<MdFamilyRestroom className="text-blue-800 text-4xl mx-2" />} title={"Parents"} count={numUniqueParents} textsize={'text-xl'}/>
-          <IconBox icon={<FaRupeeSign className="text-pink-800 text-4xl mx-2" />} title={"Earning"} count={totalFees} textsize={'text-xl'}/>
-        </div>
+        <div className="lg:flex lg:justify-between px-4">
+          <div className="w-1/2 ">  <GraphOne/></div>   
+          <div className="w-1/2 ml-4">  <GraphTwo/></div>       
+         </div>
       </div>
       {/* ////////////////////// block 2 ///////////////  */}
       <div className="h-auto w-full lg:flex justify-between">
@@ -173,25 +173,7 @@ const totalFees = sumFeesFromMarchToMarch(fees);
               onClose={closeNoticeModal}
             />
           </div>
-{/* 
-          <div className="lg:ml-4 lg:w-1/2 bg-white">
-            <div className="flex justify-between items-center px-5 py-1 bg-gradient-to-r from-green-500 to-green-100 border-b-2 border-gray-400">
-              <p className="text-md font-bold  text-white">Recent Activity</p>
-              <div>
-                <IoMdRefresh
-                  className={`text-green-600 font-bold ${
-                    isRotated ? "rotate" : ""
-                  }`}
-                  // onClick={handleRecentRefresh}
-                />
-              </div>
-            </div>
-            <div className="">
-              <div className="bg-white shadow-md p-4 rounded-lg text-gray-900 max-h-[20rem] overflow-y-auto">
-                <LogsFiles />
-              </div>
-            </div>
-          </div> */}
+
         </div>
 
         <div className=" m-4 lg:w-1/2 bg-white">

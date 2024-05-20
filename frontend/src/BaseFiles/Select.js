@@ -10,7 +10,6 @@ const Select = ({ checkSubject , isSelect= true}) => {
   const { classes, loading } = useSelector((state) => state.classes);
   const { user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  console.log(user)
   useEffect(() => {
     dispatch(getClasses());
   }, [dispatch]);
@@ -76,7 +75,6 @@ const Select = ({ checkSubject , isSelect= true}) => {
     if(selectedClass ){
     dispatch(setClassOrSubject({ selectedClass, selectedSubject }));
 }}, [dispatch, selectedClass, selectedSubject]);
-console.log(isSelect);
   return (
     <>
         <div className="flex items-center space-x-4 jus">

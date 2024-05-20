@@ -66,7 +66,7 @@ export default function GraphOne(){
     const genderCounts = getgenderCounts();
 
     window.myChartOne = new Chart(ctx, {
-      type: 'doughnut',
+      type: 'bar',
       data: {
         labels: [ 'Boys','Girls'],
         datasets: [{
@@ -81,10 +81,7 @@ export default function GraphOne(){
          
         },
       },
-      dataPoints: [
-        { y: genderCounts.maleCount, name: "Boys", color: "#E7823A" },
-        { y: genderCounts.femaleCount, name: "Girls", color: "#546BC1" }
-    ]
+     
     });
   };
   useEffect(() => {

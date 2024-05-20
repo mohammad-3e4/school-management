@@ -14,7 +14,7 @@ const Marks = () => {
     (state) => state.marks
   );
 
-  const { classes, selectedClass, selectedSubject } = useSelector(
+  const { classes, selectedClass } = useSelector(
     (state) => state.classes
   );
   const dispatch = useDispatch();
@@ -25,7 +25,6 @@ const Marks = () => {
   if (selectedClass) {
     selectedClass_name = selectedClass.replace("-", "_").toLowerCase();
   }
-
   useEffect(() => {
     if (selectedClass_name) {
       dispatch(getMarks(selectedClass_name));
@@ -115,6 +114,30 @@ const Marks = () => {
                         alt="Report Card"
                       />
                     </Link>
+                  ) :
+                  student?.class_name > 11 ? (
+                    <>
+                    <Link
+                      to={`/prireportcard1/${marksForRollNo[0].student_id}`}
+                      target="_blank"
+                    >
+                      <img
+                        className="w-8 mx-auto d-block"
+                        src="term1.png"
+                        alt="Report Card"
+                      />
+                    </Link>
+                    <Link
+                      to={`/prireportcard2/${marksForRollNo[0].student_id}`}
+                      target="_blank"
+                    >
+                      <img
+                        className="w-8 mx-auto d-block"
+                        src="term2.png"
+                        alt="Report Card"
+                      />
+                    </Link>
+                  </>
                   ) : (
                     <>
                       <Link
@@ -143,14 +166,14 @@ const Marks = () => {
               </>
             )}
             <>
-              {student?.class_name == 9 || student?.class_name == 11 ? (
+              {student?.class_name == 9 || student?.class_name == 11 || student?.class_name == 13 || student?.class_name == 14 || student?.class_name == 15? (
                 <>
-                  <td
+                  {/* <td
                     colSpan={2}
                     className="px-2 py-2 border-r-2 border-gray-200"
                   >
                     {student.grand_total}
-                  </td>
+                  </td> */}
                 </>
               ) : (
                 <>
@@ -181,6 +204,16 @@ const Marks = () => {
               />
             </Link>
           </td>
+        ) :
+        selectedClass?.split("-")[0] > 11 ? (
+          <td className="">
+            <Link to={`/marks/details/primary/${marksForRollNo[0].student_id}`}>
+              <FaEye
+                className="h-5 w-5 cursor-pointer mx-auto"
+                title="Details"
+              />
+            </Link>
+          </td>
         ) : (
           <td className="">
             <Link to={`/marks/details/ninth/${marksForRollNo[0].student_id}`}>
@@ -194,7 +227,7 @@ const Marks = () => {
       </tr>
     ));
   };
-  let class_name = 11;
+  let class_name=11;
   function extractInfo(obj) {
     return {
       student_id: obj.student_id,
@@ -312,7 +345,6 @@ const Marks = () => {
         <h6 className="text-gray-700 text-xl capitalize font-semibold font-sans px-4 tracking-wider w-1/2">
           {`${currentUrl.split("/")[3]}  ${currentUrl.split("/")[4] || ""}`}
         </h6>
-        
         <div className="w-1/2 flex gap-5 justify-end px-4 items-center">
         <ExtractedDataCsvDownloader transformedArray={transformedArray}/>
           <Select checkSubject={false} />
@@ -339,77 +371,78 @@ const Marks = () => {
           <Loader />
         ) : (
           <table className="flex-auto pb-10 pt-0 text-xs text-left rtl:text-right text-gray-500 dark:text-gray-400 relative overflow-x-auto shadow w-full  px-4 mx-auto  bg-white">
-            <thead className="text-xs text-gray-700 capitalize bg-white dark:bg-gray-700 dark:text-gray-400">
-              <tr>
-                {thds?.map((heading, index) => (
-                  <th
-                    scope="col"
-                    colSpan={
-                      heading !== "roll_no" &&
-                      heading !== "student_name" &&
-                      heading !== "student_image" &&
-                      heading !== "Report_Card"
-                        ? 2
-                        : 1
-                    }
-                    rowSpan={
-                      heading === "roll_no" ||
-                      heading === "student_name" ||
-                      heading === "student_image" ||
-                      heading === "Report_Card"
-                        ? 2
-                        : 1
-                    }
-                    key={index}
-                    className={`py-2 text-center text-xs border-b-2 border-r-2 ${
-                      heading === "student_name"
-                        ? "bg-green-400 text-black"
-                        : ""
-                    } `}
-                  >
-                    {heading}
-                  </th>
-                ))}
-                <th
-                  scope="col"
-                  rowSpan={2}
-                  className="py-2 px-2 text-xs text-center border-b-2"
-                >
-                  Actions
-                </th>
-              </tr>
-              {class_name == 9 || class_name == 11 ? (
-                ""
-              ) : (
-                <tr>
-                  {thds?.map((heading, index) => (
-                    <React.Fragment key={index}>
-                      {!(
-                        heading === "roll_no" ||
-                        heading === "student_name" ||
-                        heading === "student_image" ||
-                        heading === "Report_Card"
-                      ) && (
-                        <>
-                          <th
-                            scope="col"
-                            className="py-2 text-center text-xs border-b-2"
-                          >
-                            term1
-                          </th>
-                          <th
-                            scope="col"
-                            className="py-2 text-center text-xs border-b-2 border-r-2"
-                          >
-                            term2
-                          </th>
-                        </>
-                      )}
-                    </React.Fragment>
-                  ))}
-                </tr>
-              )}
-            </thead>
+          <thead className="text-xs text-gray-700 capitalize bg-white dark:bg-gray-700 dark:text-gray-400">
+  <tr>
+    {selectedClass?.split("-")[0] < 9  ? (
+      thds?.map((heading, index) => (
+        <th
+          scope="col"
+          colSpan={
+            heading !== "roll_no" &&
+            heading !== "student_name" &&
+            heading !== "student_image" &&
+            heading !== "Report_Card"
+              ? 2
+              : 1
+          }
+          rowSpan={
+            heading === "roll_no" ||
+            heading === "student_name" ||
+            heading === "student_image" ||
+            heading === "Report_Card"
+              ? 2
+              : 1
+          }
+          key={index}
+          className={`py-2 text-center text-xs border-b-2 border-r-2 ${
+            heading === "student_name" ? "bg-green-400 text-black" : ""
+          } `}
+        >
+          {heading}
+        </th>
+      ))
+    ) : (
+      <>
+        <th className="py-2 text-center text-xs border-b-2 border-r-2">roll_no</th>
+        <th className="py-2 text-center text-xs border-b-2 border-r-2">student_name</th>
+        <th className="py-2 text-center text-xs border-b-2 border-r-2">student_image</th>
+        <th className="py-2 text-center text-xs border-b-2 border-r-2">Report_Card</th>
+      </>
+    )}
+    <th
+      scope="col"
+      rowSpan={2}
+      className="py-2 px-2 text-xs text-center border-b-2"
+    >
+      Actions
+    </th>
+  </tr>
+  {(class_name !== 9 && class_name !== 11) && (
+    <tr>
+      {thds?.map((heading, index) => (
+        <React.Fragment key={index}>
+          {!(heading === "roll_no" || heading === "student_name" || heading === "student_image" || heading === "Report_Card") && (
+            <>
+              <th
+                scope="col"
+                className="py-2 text-center text-xs border-b-2"
+              >
+                term1
+              </th>
+              <th
+                scope="col"
+                className="py-2 text-center text-xs border-b-2 border-r-2"
+              >
+                term2
+              </th>
+            </>
+          )}
+        </React.Fragment>
+      ))}
+    </tr>
+  )}
+</thead>
+
             <tbody>
               {marks?.length === 0 ? (
                 <tr>

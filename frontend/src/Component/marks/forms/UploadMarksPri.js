@@ -87,8 +87,6 @@ const UploadMarksPrimary = () => {
     dispatch(editMarks({ updatedMarks, selectedClass, selectedSubject }));
   };
 
-  console.log(message);
-
   return (
     <section className="py-1  w-full m-auto pb-20">
       <div className="flex flex-wrap justify-between shadow bg-white py-2 mb-1">
@@ -188,7 +186,6 @@ const UploadMarksPrimary = () => {
                                         mark.student_id === student.student_id
                                     )?.[header] || ""
                                   }
-                                  disabled={header === "best_of_two_term1" || header === "total_marks_term1" }
                                   onChange={(e) =>
                                     handleInputChange(
                                       student.student_id,
@@ -348,7 +345,6 @@ const UploadMarksPrimary = () => {
                                         mark.student_id === student.student_id
                                     )?.[header] || ""
                                   }
-                                  disabled={header ==="best_of_two"}
                                   onChange={(e) =>
                                     handleInputChange(
                                       student.student_id,
@@ -523,6 +519,11 @@ const UploadMarksPrimary = () => {
                             (mark) => mark.student_id === student.student_id
                           )?.Portfolio || 0
                         );
+                        const Multiple_Assessment = parseFloat(
+                          subjectMarks?.find(
+                            (mark) => mark.student_id === student.student_id
+                          )?.Multiple_Assessment || 0
+                        );
                         const Sub_Enrichment = parseFloat(
                           subjectMarks?.find(
                             (mark) => mark.student_id === student.student_id
@@ -536,6 +537,7 @@ const UploadMarksPrimary = () => {
                         const total =
                           periodic_test +
                           Portfolio +
+                          Multiple_Assessment+
                           Sub_Enrichment +
                           annual_exam;
 
@@ -596,7 +598,7 @@ const UploadMarksPrimary = () => {
                 ))}
               </tbody>
             </table>
-          ) : (
+          ) :selectedClass?.split("-")[0] == 11 ?  (
             <table className="w-full text-gray-700 text-xl capitalize font-sans px-4 tracking-wider flex-auto pb-10 pt-0 text-xs text-left rtl:text-right text-gray-500 dark:text-gray-400 relative shadow bg-white">
               <thead className="text-[10px] text-gray-700 capitalize bg-white dark:bg-gray-700 dark:text-gray-400">
                 <tr className="bg-[#233459] text-white">
@@ -743,6 +745,305 @@ const UploadMarksPrimary = () => {
                 ))}
               </tbody>
             </table>
+          ):(
+            <>
+            <table className="w-full text-gray-700 text-xl capitalize font-sans px-4 tracking-wider flex-auto pb-10 pt-0 text-xs text-left rtl:text-right text-gray-500 dark:text-gray-400 relative shadow bg-white">
+              <thead className="text-[10px] text-gray-700 capitalize bg-white dark:bg-gray-700 dark:text-gray-400">
+                <tr className="bg-[#233459] text-white">
+                  <th
+                    className="text-center h-8 w-10"
+                    style={{ width: "auto" }}
+                  >
+                    Roll
+                  </th>
+                  <th className="text-center" style={{ width: "auto" }}>
+                    Name
+                  </th>
+                  {marksHeader
+                    ?.filter(
+                      (header) =>
+                        header !== "mark_id" &&
+                        header !== "student_id" &&
+                        header !== "subject_name" &&
+                        header.includes("1_"+ selectedSubject)
+                      )
+                    .map((header) => (
+                      <th
+                        className="text-center"
+                        key={header}
+                        style={{ width: "auto" }}
+                      >
+                        {header.replaceAll("_", " ")}
+                      </th>
+                    ))}
+                </tr>
+              </thead>
+              <tbody>
+                {students?.map((student) => (
+                  <tr key={student.id} className="text-[10px]">
+                    <td
+                      className="bg-yellow-600 border text-center font-semibold"
+                      style={{ width: "auto" }}
+                    >
+                      {student.roll_no}
+                    </td>
+                    <td
+                      className="bg-yellow-600 border font-semibold text-[10px] text-center"
+                      style={{ width: "auto" }}
+                    >
+                      {student.student_name}
+                    </td>
+                    {marksHeader?.map((header) => {
+                      if (
+                        header !== "mark_id" &&
+                        header !== "student_id" &&
+                        header !== "subject_name" &&
+                        header !== "grand_total" &&
+                        !header.includes("final_grade") &&
+                        header.includes("1_"+ selectedSubject)
+                      ) {
+                        return (
+                          <td key={header} style={{ width: "auto" }}>
+                            <input
+                              type="number"
+                              className={` text-center border-0 placeholder-blueGray-300 focus:bg-white text-gray-600 bg-white rounded-sm text-sm shadow focus:outline-none w-full ease-linear transition-all duration-150 border-red-500`}
+                              placeholder={
+                                subjectMarks?.find(
+                                  (mark) =>
+                                    mark.student_id === student.student_id
+                                )?.[header] || ""
+                              }
+                              onChange={(e) =>
+                                handleInputChange(
+                                  student.student_id,
+                                  header,
+                                  e.target.value
+                                )
+                              }
+                            />
+                          </td>
+                        );
+                      } else if (header === "grand_total") {
+                        const theory_obt = parseFloat(
+                          subjectMarks?.find(
+                            (mark) => mark.student_id === student.student_id
+                          )?.theory_obt || 0
+                        );
+                        const practical_obt = parseFloat(
+                          subjectMarks?.find(
+                            (mark) => mark.student_id === student.student_id
+                          )?.practical_obt || 0
+                        );
+
+                        const total = theory_obt + practical_obt;
+
+                        const totalMarks = total;
+                        let grade = "";
+                        if (totalMarks >= 90) {
+                          grade = "A1";
+                        } else if (totalMarks >= 80) {
+                          grade = "A2";
+                        } else if (totalMarks >= 70) {
+                          grade = "B1";
+                        } else if (totalMarks >= 60) {
+                          grade = "B2";
+                        } else if (totalMarks >= 50) {
+                          grade = "C1";
+                        } else if (totalMarks >= 40) {
+                          grade = "C2";
+                        } else {
+                          grade = "D";
+                        }
+                        return (
+                          <>
+                           
+                            <td key={header} style={{ width: "auto" }}>
+                              <input
+                                type="number"
+                                className={` text-center border-0 placeholder-blueGray-300 focus:bg-white text-gray-600 bg-white rounded-sm text-sm shadow focus:outline-none w-full ease-linear transition-all duration-150 border-red-500`}
+                                placeholder={grade || ""}
+                                onChange={(e) =>
+                                  handleInputChange(
+                                    student.student_id,
+                                    header,
+                                    grade
+                                  )
+                                }
+                              />
+                            </td>
+                            <td key={header} style={{ width: "auto" }}>
+                              <input
+                                type="number"
+                                className={` text-center border-0 placeholder-blueGray-300 focus:bg-white text-gray-600 bg-white rounded-sm text-sm shadow focus:outline-none w-full ease-linear transition-all duration-150 border-red-500`}
+                                value={totalMarks || ""}
+                                onChange={(e) =>
+                                  handleInputChange(
+                                    student.student_id,
+                                    header,
+                                    totalMarks
+                                  )
+                                }
+                              />
+                            </td>
+                          </>
+                        );
+                      } else {
+                        return null; // Return null for headers that don't need special treatment
+                      }
+                    })}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+
+<table className="w-full text-gray-700 text-xl capitalize font-sans px-4 tracking-wider flex-auto pb-10 pt-0 text-xs text-left rtl:text-right text-gray-500 dark:text-gray-400 relative shadow bg-white">
+<thead className="text-[10px] text-gray-700 capitalize bg-white dark:bg-gray-700 dark:text-gray-400">
+  <tr className="bg-[#233459] text-white">
+    <th
+      className="text-center h-8 w-10"
+      style={{ width: "auto" }}
+    >
+      Roll
+    </th>
+    <th className="text-center" style={{ width: "auto" }}>
+      Name
+    </th>
+    {marksHeader
+      ?.filter(
+        (header) =>
+          header !== "mark_id" &&
+          header !== "student_id" &&
+          header !== "subject_name" &&
+          header.includes("2_"+ selectedSubject)
+        )
+      .map((header) => (
+        <th
+          className="text-center"
+          key={header}
+          style={{ width: "auto" }}
+        >
+          {header.replaceAll("_", " ")}
+        </th>
+      ))}
+  </tr>
+</thead>
+<tbody>
+  {students?.map((student) => (
+    <tr key={student.id} className="text-[10px]">
+      <td
+        className="bg-yellow-600 border text-center font-semibold"
+        style={{ width: "auto" }}
+      >
+        {student.roll_no}
+      </td>
+      <td
+        className="bg-yellow-600 border font-semibold text-[10px] text-center"
+        style={{ width: "auto" }}
+      >
+        {student.student_name}
+      </td>
+      {marksHeader?.map((header) => {
+        if (
+          header !== "mark_id" &&
+          header !== "student_id" &&
+          header !== "subject_name" &&
+          header !== "grand_total" &&
+          !header.includes("final_grade") &&
+          header.includes("2_"+ selectedSubject)
+        ) {
+          return (
+            <td key={header} style={{ width: "auto" }}>
+              <input
+                type="number"
+                className={` text-center border-0 placeholder-blueGray-300 focus:bg-white text-gray-600 bg-white rounded-sm text-sm shadow focus:outline-none w-full ease-linear transition-all duration-150 border-red-500`}
+                placeholder={
+                  subjectMarks?.find(
+                    (mark) =>
+                      mark.student_id === student.student_id
+                  )?.[header]|| ""
+                }
+                onChange={(e) =>
+                  handleInputChange(
+                    student.student_id,
+                    header,
+                    e.target.value
+                  )
+                }
+              />
+            </td>
+          );
+        } else if (header === "grand_total") {
+          const theory_obt = parseFloat(
+            subjectMarks?.find(
+              (mark) => mark.student_id === student.student_id
+            )?.theory_obt || 0
+          );
+          const practical_obt = parseFloat(
+            subjectMarks?.find(
+              (mark) => mark.student_id === student.student_id
+            )?.practical_obt || 0
+          );
+
+          const total = theory_obt + practical_obt;
+
+          const totalMarks = total;
+          let grade = "";
+          if (totalMarks >= 90) {
+            grade = "A1";
+          } else if (totalMarks >= 80) {
+            grade = "A2";
+          } else if (totalMarks >= 70) {
+            grade = "B1";
+          } else if (totalMarks >= 60) {
+            grade = "B2";
+          } else if (totalMarks >= 50) {
+            grade = "C1";
+          } else if (totalMarks >= 40) {
+            grade = "C2";
+          } else {
+            grade = "D";
+          }
+          return (
+            <>
+             
+              <td key={header} style={{ width: "auto" }}>
+                <input
+                  type="number"
+                  className={` text-center border-0 placeholder-blueGray-300 focus:bg-white text-gray-600 bg-white rounded-sm text-sm shadow focus:outline-none w-full ease-linear transition-all duration-150 border-red-500`}
+                  placeholder={grade || ""}
+                  onChange={(e) =>
+                    handleInputChange(
+                      student.student_id,
+                      header,
+                      grade
+                    )
+                  }
+                />
+              </td>
+              <td key={header} style={{ width: "auto" }}>
+                <input
+                  type="number"
+                  className={` text-center border-0 placeholder-blueGray-300 focus:bg-white text-gray-600 bg-white rounded-sm text-sm shadow focus:outline-none w-full ease-linear transition-all duration-150 border-red-500`}
+                  value={totalMarks || ""}
+                  onChange={(e) =>
+                    handleInputChange(
+                      student.student_id,
+                      header,
+                      totalMarks
+                    )
+                  }
+                />
+              </td>
+            </>
+          );
+        } else {
+          return null; // Return null for headers that don't need special treatment
+        }
+      })}
+    </tr>
+  ))}
+</tbody>
+</table></>
           )}
         </div>
       )}

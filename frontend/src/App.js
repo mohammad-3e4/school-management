@@ -45,7 +45,10 @@ import { useDispatch, useSelector } from "react-redux";
 import UploadMaxMarks from "./Component/marks/forms/UploadMaxMarks.js";
 import MarksDetailNine from "./Component/marks/MarksDetailNine.js";
 import MarksDetailEleven from "./Component/marks/MarksDetaileleven.js";
+import MarksDetailPrimary from "./Component/marks/MarksDetailPrimary.js";
 import UploadScholastic from "./Component/marks/forms/UploadCoScholastic.js";
+import PrimaryTermOne from "./Component/reportcards/PrimarytermOne.js";
+import PrimaryTermTwo from "./Component/reportcards/PrimarytermTwo.js";
 function App() {
   const {user} = useSelector((state)=>state.user)
   return (
@@ -254,6 +257,14 @@ function App() {
               </Layout>
             }
           />
+              <Route
+            path="/marks/details/primary/:id"
+            element={
+              <Layout>
+                <MarksDetailPrimary />
+              </Layout>
+            }
+          />
           <Route
             path="/fees/entries"
             element={
@@ -368,6 +379,8 @@ function App() {
           <Route path="/reportcard2/:id" element={<Termtwo />} />
           <Route path="/secondary/:id" element={<Secondary />} />
           <Route path="/sensecondary/:id" element={<SenSecondary />} />
+          <Route path="/prireportcard1/:id" element={<PrimaryTermOne />} />
+          <Route path="/prireportcard2/:id" element={<PrimaryTermTwo />} />
         </Route>
         <Route path="/" element={<AdminLogin />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
